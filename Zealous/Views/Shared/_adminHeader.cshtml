@@ -1,0 +1,58 @@
+﻿<div class="sb2-1">
+    <!--== USER INFO ==-->
+    <div class="sb2-12">
+        <ul>
+            <li>
+                <img src="~/Admin/images/adminicon.jpg" alt="">
+            </li>
+            <li>
+                <h5>Admin</h5>
+            </li>
+            <li></li>
+        </ul>
+    </div>
+    <!--== LEFT MENU ==-->
+    <div class="sb2-13">
+        <ul class="collapsible" data-collapsible="accordion">
+            <li>
+                <a href="/Home/AdminDashboard"><i class="fa fa-bar-chart" aria-hidden="true"></i> Dashboard</a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-plane" aria-hidden="true"></i> Airport</a>
+                <div class="collapsible-body left-sub-menu">
+                    <ul>
+                        <li>
+                            <a href=" @Url.Action("Index","Airports")">All Airports</a>
+                        </li>
+                        <li>
+                            <a href=" @Url.Action("Create","Airports")">Add New Airport</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </li>
+            <li>
+                <a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-user" aria-hidden="true"></i> Users</a>
+                <div class="collapsible-body left-sub-menu">
+                    <ul>
+                        <li>
+                            <a href=" @Url.Action("Index","Users")">All Users</a>
+                        </li>
+                        <li>
+                            <a href=" @Url.Action("InactiveUsers","Users")">Inactive Users</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <a href="@Url.Action("FAA","Users")" class="collapsible-header"><i class="fa fa-certificate" aria-hidden="true"></i> FAA</a>
+
+            </li>
+            <li>
+                <a href="/Home/Logout" class="collapsible-header"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
+
+            </li>
+
+        </ul>
+    </div>
+</div>

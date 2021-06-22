@@ -1,0 +1,165 @@
+﻿@model Zealous.Models.ViewModel.HomeViewModel
+@using Zealous.Helper;
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Mvc;
+@inject IHttpContextAccessor HttpContextAccessor;
+@{
+    ViewData["Title"] = "Passenger Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var count = 0;
+    var Dp = HttpContextAccessor.HttpContext.Session.GetString("Dp");
+}
+
+<!--DASHBOARD-->
+<section>
+    <div class="db">
+        <!--LEFT SECTION-->
+        <div class="db-l">
+            <div class="db-l-1 center-block" style="border-radius:150px;width:80%;height:80%">
+                <ul class="center-align">
+                    @if (Dp != null)
+                    {
+                        <li style="align-content:center">
+                            <img class="center-align" src="~/@Dp" id="dp" alt="">
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <img src="~/Admin/images/placeholder.jpg" id="dp2" alt="">
+                        </li>
+                    }
+
+
+                </ul>
+            </div>
+            <div class="db-l-2">
+                <ul>
+                    <li class="bg-primary">
+                        <a style="color:white; text-align:center" href="/Home/PilotDashboard"><img src="images/icon/dbl1.png" alt="" /><i class="fa fa-plane"></i> Switch To Pilot</a>
+                    </li>
+                    <li>
+
+                    </li>
+                    <li>
+                        <a href="/Home/MemberDashboard"><i class="fa fa-bar-chart"></i> Dashboard</a>
+                    </li>
+                   
+                    <li>
+                        <a href="/Chats/Index"><i class="fa fa-envelope"></i> Messages</a>
+                    </li>
+                    <li>
+                        <a href="/Home/AllFlight"><i class="fa fa-search"></i> Search Flights</a>
+                    </li>
+
+                    <li>
+                        <a href="/Home/ContactUs"><i class="fa fa-phone"></i> Contact Us</a>
+                    </li>
+                    <li>
+                        <a href="/Users/CompleteProfile"><i class="fa fa-user"></i> Edit Profile</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+        <!--CENTER SECTION-->
+        <div class="db-2">
+            <div class="db-2-com db-2-main">
+                <h4>Travel Booking</h4>
+                <div class="db-2-main-com db-2-main-com-table">
+                    <table class="responsive-table">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Flight</th>
+                                <th>No Of Seats</th>
+                                <th>Date/Time</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Notifications)
+                            {
+                                <tr>
+                                    <td>@{count = count + 1;}@count</td>
+                                    <td>@item.Flight.FlightTo</td>
+                                    <td>@{var Total = item.LeftSeat + item.RearSeat + item.RightSeat;} @Total</td>
+                                    <td>@item.Flight.DateOfFlight</td>
+                                    <td>$@item.TotalCost</td>
+                                    <td>
+                                        @if (item.Status == 0)
+                                        {
+
+
+                                            <span class="db-not-done">Pending</span>
+
+                                        }
+                                        else if (item.Status == 1)
+                                        {
+                                            <span class="db-done">Confirmed</span>
+                                        }
+                                        else if (item.Status == 2)
+                                        {
+                                            <span class="db-declined">Declined</span>
+                                        }
+
+                                    </td>
+
+                                </tr>
+                            }
+                            @foreach (var item in Model.Bookings)
+                            {
+                                <tr>
+                                    <td>@{count = count + 1;}@count</td>
+                                    <td>@item.Flight.FlightTo</td>
+                                    <td>@{var Total = item.LeftSeat + item.RearSeat + item.RightSeat;} @Total</td>
+                                    <td>@item.Flight.DateOfFlight</td>
+                                    <td>$@item.TotalCost</td>
+                                    <td>
+                                        @if (item.Status == 0)
+                                        {
+
+
+                                            <span class="db-not-done">Pending</span>
+
+                                        }
+                                        else if (item.Status == 1)
+                                        {
+                                            <span class="db-done">Confirmed</span>
+                                        }
+                                        else if (item.Status == 2)
+                                        {
+                                            <span class="db-declined">Declined</span>
+                                        }
+
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!--RIGHT SECTION-->
+        <div class="db-3">
+            <h4>Trending Flights</h4>
+            <ul>
+                @foreach (var item in Model.Flights)
+                {
+                    <li>
+                        <a href="@Url.Action("BookNow","Flights",new {EFID=Helper.Encrypt(item.Id.ToString()) })">
+                            <img src="~/images/package/1.jpg" alt="">
+                            <h5>@item.FlightTo</h5>
+                            <p>Cost Of Flight: $@item.CostOfFlight</p>
+                        </a>
+                    </li>
+                }
+
+            </ul>
+        </div>
+    </div>
+</section>
+<!--END DASHBOARD-->

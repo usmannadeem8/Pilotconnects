@@ -1,0 +1,91 @@
+﻿@model Zealous.Models.DB.Flight
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_PilotLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Flight</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberOfLeftSeats)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NumberOfLeftSeats)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberOfRightSeats)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NumberOfRightSeats)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberOfRearSeats)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NumberOfRearSeats)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CostOfFlight)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CostOfFlight)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UsuableWeightAvailable)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UsuableWeightAvailable)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateOfFlight)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateOfFlight)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateAdded)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateAdded)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateUpdated)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateUpdated)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Active)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Active)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DepartureAirportNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DepartureAirportNavigation.Airport)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DestinationAirportNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DestinationAirportNavigation.Airport)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Pilot)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Pilot.ConfirmPassword)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

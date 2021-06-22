@@ -1,0 +1,157 @@
+﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Mvc;
+@using System.Diagnostics;
+@using System.Linq;
+@using Zealous.Helper;
+@inject IHttpContextAccessor HttpContextAccessor;
+
+@{
+    var UserId = HttpContextAccessor.HttpContext.Session.GetString("UserId");
+    var FullName = HttpContextAccessor.HttpContext.Session.GetString("FullName");
+    var Dp = HttpContextAccessor.HttpContext.Session.GetString("Dp");
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]  - Pilotconnects</title>
+    <link id="tabicon" rel="icon" type="image/icon" href="~/images/plane.png" />
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+
+    </environment>
+    <link href="~/Admin/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/Admin/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Admin/css/materialize.css" rel="stylesheet" />
+    <link href="~/Admin/css/mob.css" rel="stylesheet" />
+    <link href="~/Admin/css/style.css" rel="stylesheet" />
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/css/bootstrap-select.min.css" />
+</head>
+<body style="background:#e8edf2">
+    <!--== MAIN CONTRAINER ==-->
+    <div class="container-fluid sb1">
+        <div class="row">
+            <!--== LOGO ==-->
+            <div class="col-md-2 col-sm-3 col-xs-6 sb1-1">
+                <a href="#" class="btn-close-menu"><i class="fa fa-times" aria-hidden="true"></i></a>
+                <a href="#" class="atab-menu"><i class="fa fa-bars tab-menu" aria-hidden="true"></i></a>
+                <a href="/Home/PilotDashboard" class="logo">
+                    <img src="~/Admin/images/logo1.jpeg" alt="" />
+                </a>
+            </div>
+            <!--== SEARCH ==-->
+            <div class="col-md-6 col-sm-6 mob-hide">
+
+            </div>
+            <!--== NOTIFICATION ==-->
+            <div class="col-md-2 tab-hide">
+                <div class="top-not-cen">
+                    <a class='waves-effect btn-noti' href='/Chats/Index'><i class="fa fa-envelope-o" aria-hidden="true"></i><span id="messagen">@Helper.MessageCount(UserId)</span></a>
+                    <a class='waves-effect btn-noti' href='/Notifications/Index'><i class="fa fa-tag" aria-hidden="true"></i><span id="notific">@Helper.NotificationCount(UserId)</span></a>
+                </div>
+            </div>
+            <!--== MY ACCCOUNT ==-->
+            <div class="col-md-2 col-sm-3 col-xs-6">
+                <!-- Dropdown Trigger -->
+                <a class='waves-effect dropdown-button top-user-pro' href='#' data-activates='top-menu'>
+                    @if (Dp != null)
+                    {
+
+                        <img src="~/@Dp" alt="">
+
+                    }
+                    else
+                    {
+
+                        <img src="~/Admin/placeholder.jpg" alt="">
+
+                    } <span>@FullName</span><i class="fa fa-angle-down" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid sb2">
+        <div class="row">
+            <partial name="_PilotHeader" />
+            @*<partial name="_CookieConsentPartial" />*@
+            <div class="sb2-2">
+                @RenderBody()
+
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p style="margin:20px" class="pull-right">&copy; 2020 - Pilot Connects Created by Zealous Aviation</p>
+    </footer>
+
+
+
+
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+        </script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd">
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+    <script src="~/Admin/js/bootstrap.min.js"></script>
+    <script src="~/Admin/js/html5shiv.js"></script>
+    <script src="~/Admin/js/custom.js"></script>
+    <script src="~/Admin/js/materialize.min.js"></script>
+    <script src="~/Admin/js/respond.min.js"></script>
+    <script src="~/Admin/js/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable(
+
+                {
+
+                    "aLengthMenu": [[25, 50, 100, -1], [25, 50, 100, "All"]],
+                    "iDisplayLength": 25
+                }
+            );
+        });
+
+    </script>
+    <script>
+        function AttachEnclosure() {
+
+            $("#myModal").modal('show');
+
+        }
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

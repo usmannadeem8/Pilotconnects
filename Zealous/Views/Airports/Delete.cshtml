@@ -1,0 +1,87 @@
+﻿@model Zealous.Models.DB.Airports
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="sb2-2-2">
+    <ul>
+        <li>
+            <a href="#"><i class="fa fa-home" aria-hidden="true"></i> Home</a>
+        </li>
+        <li class="active-bre">
+            <a href="#"> Delete</a>
+        </li>
+    </ul>
+</div>
+<div class="sb2-2-3">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box-inn-sp">
+                <div class="inn-title">
+                    <h4>Are you sure you want to delete this?</h4>
+
+                    <!-- Dropdown Structure -->
+
+                </div>
+                <div class="tab-inn">
+                    <div class="table-responsive table-desi">
+                        <div class="container">
+                            <div class="row">
+
+                                <table class="table table-striped table-bordered" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Airport Location Id
+                                            </th>
+                                            <th>
+                                                Airport Location Latitude
+                                            </th>
+                                            <th>
+                                                Airport Location Longitude
+                                            </th>
+                                            <th>
+                                                State
+                                            </th>
+                                            <th>
+
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(model => model.Airport)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => model.Lat)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => model.Lang)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => model.State)
+                                            </td>
+                                            <td>
+                                                <form asp-action="Delete">
+                                                    <input type="hidden" asp-for="Id" />
+                                                    <input type="submit" value="Delete" class="btn btn-default" /> |
+                                                    <a asp-action="Index">Back to List</a>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

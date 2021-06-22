@@ -1,0 +1,168 @@
+﻿@model Zealous.Models.ViewModel.HomeViewModel
+@using Zealous.Helper;
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Mvc;
+@inject IHttpContextAccessor HttpContextAccessor;
+@{
+    ViewData["Title"] = "Paypal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var Dp = HttpContextAccessor.HttpContext.Session.GetString("Dp");
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Add meta tags for mobile and IE -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title> Subscribe </title>
+</head>
+<body>
+    <!-- Set up a container element for the button -->
+    <!--DASHBOARD-->
+    <section>
+        <div class="db">
+            <!--LEFT SECTION-->
+            <div class="db-l">
+                <div class="db-l-1 center-block" style="border-radius:150px;width:80%;height:80%">
+                    <ul class="center-align">
+                        @if (Dp != null)
+                        {
+                            <li style="align-content:center">
+                                <img class="center-align" src="~/@Dp" id="dp" alt="">
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <img src="~/Admin/images/placeholder.jpg" id="dp2" alt="">
+                            </li>
+                        }
+
+
+                    </ul>
+                </div>
+                <div class="db-l-2">
+                    <ul>
+                        <li class="bg-primary">
+                            <a style="color:white; text-align:center" href="/Home/PilotDashboard"><img src="images/icon/dbl1.png" alt="" /><i class="fa fa-plane"></i> Switch To Pilot</a>
+                        </li>
+                        <li>
+
+                        </li>
+                        <li>
+                            <a href="/Home/MemberDashboard"><i class="fa fa-bar-chart"></i> Dashboard</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/Chats/Index"><i class="fa fa-envelope"></i> Messages</a>
+                        </li>
+                        <li>
+                            <a href="/Home/AllFlight"><i class="fa fa-search"></i> Search Flights</a>
+                        </li>
+
+                        <li>
+                            <a href="/Home/ContactUs"><i class="fa fa-phone"></i> Contact Us</a>
+                        </li>
+                        <li>
+                            <a href="/Users/CompleteProfile"><i class="fa fa-user"></i> Edit Profile</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+            <!--CENTER SECTION-->
+            <div class="db-2">
+                <div class="db-2-com db-2-main">
+                    <h4>Proceed With the Payment</h4>
+                    <div class="db-2-main-com db-2-main-com-table">
+                        <input type="text" value="@Helper.Encrypt(Model.User.Id.ToString())" id="uid" hidden />
+                        <div id="paypal-button-container"></div>
+                    </div>
+                </div>
+            </div>
+            <!--RIGHT SECTION-->
+            <div class="db-3">
+                <h4>Trending Flights</h4>
+                <ul>
+                    @foreach (var item in Model.Flights)
+                    {
+                        <li>
+                            <a href="@Url.Action("BookNow","Flights",new {EFID=Helper.Encrypt(item.Id.ToString()) })">
+                                <img src="~/images/package/1.jpg" alt="">
+                                <h5>@item.FlightTo</h5>
+                                <p>Cost Of Flight: $@item.CostOfFlight</p>
+                            </a>
+                        </li>
+                    }
+
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!--END DASHBOARD-->
+    <!-- Include the PayPal JavaScript SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AdVgzge423OyUSgjEFSa9MYtIfXASMe8fXq9Ls1pDzPv3b7aKU1jrsjdCjbSprXMktnRxSpu6xGxtzQZ&currency=USD"></script>
+    <script>
+        // Render the PayPal button into #paypal-button-container
+        paypal.Buttons({
+
+            // Set up the transaction
+            createOrder: function (data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: '50.0'
+                        }
+                    }]
+                });
+            },
+
+            // Finalize the transaction
+            onApprove: function (data, actions) {
+                return actions.order.capture().then(function (details) {
+                    // Show a success message to the buyer
+                    Update();
+                    alert('Transaction completed by ' + details.payer.name.given_name + '!');
+
+                });
+            }
+
+
+        }).render('#paypal-button-container');</script>
+
+    <script>
+        var UserAuthenticated = 0;
+        function Update() {
+            var u=$("#uid").val();
+
+                $.ajax({
+                    url: "/Home/UpdatePayment?UserId=" + u,
+                    type: "POST",
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (data) {
+
+                        if (data == 1) {
+                            location.href='/Home/MemberDashboard'
+                            return true;
+                        } else {
+                            location.href = '/Home/Paypal'
+                            return false;
+                        }
+                    },
+
+                    error: function (e) {
+                        //location.reload();
+                    }
+                });
+
+
+
+        }
+    </script>
+</body>
+</html>
+
+

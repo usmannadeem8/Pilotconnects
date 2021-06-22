@@ -1,0 +1,63 @@
+﻿@model Zealous.Models.DB.Airports
+
+@{
+    ViewData["Title"] = "Add New Airport";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+    <div class="sb2-2-2">
+        <ul>
+            <li>
+                <a href="index.html"><i class="fa fa-home" aria-hidden="true"></i> Home</a>
+            </li>
+            <li class="active-bre">
+                <a href="#"> Add Airport</a>
+            </li>
+            <li class="page-back">
+                <a href="/Home/AdminDashboard"><i class="fa fa-backward" aria-hidden="true"></i> Back</a>
+            </li>
+        </ul>
+    </div>
+     <div class="sb2-2-add-blog sb2-2-1">
+        <div class="box-inn-sp">
+            <div class="inn-title">
+                <h4>Add Airport</h4>
+            </div>
+            <div class="bor">
+                <form asp-action="Create">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="list-title" asp-for="Airport" type="text" value="" class="validate">
+                            <label for="list-title">Airport Location Id</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="list-lat" asp-for="Lat" type="text" value="" class="validate">
+                            <label for="list-lat">Airport Location Latitude</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="list-long" asp-for="Lang" type="text" value="" class="validate">
+                            <label for="list-long">Airport Location Longitude</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="list-long" asp-for="State" type="text" value="" class="validate">
+                            <label for="list-long">State</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input type="submit" class="waves-effect waves-light btn-large" value="Submit">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    

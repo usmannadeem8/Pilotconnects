@@ -1,0 +1,37 @@
+﻿@model Zealous.Models.DB.Airports
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Airports</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Airport)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Airport)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Lat)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Lat)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Lang)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Lang)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

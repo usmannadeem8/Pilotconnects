@@ -1,0 +1,67 @@
+﻿@model Zealous.Models.ViewModel.HomeViewModel
+@{
+    ViewData["Title"] = "Book Now";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<section>
+    <div class="tr-register">
+        <div class="tr-regi-form v2-search-form">
+            <h4>Booking your <span>Seats</span></h4>
+            <p>Fly with us!</p>
+            <form method="post" asp-action="BookNow">
+                <input name="Id" value="@Model.Flight.Id" hidden />
+                <input name="CostOfSeat" value="@Model.CostOfSeat" hidden />
+                <div class="alert alert-success contact__msg" style="display: none" role="alert">
+                    Thank you for arranging a wonderful trip for us! Our team will contact you shortly!
+                </div>
+                @if (Model.IsFirstSeat == true)
+                {
+                    <div class="alert alert-info">
+                        Prices Subject to decrease dependent on number of seats filled.
+                    </div>
+                }
+
+                    <div class="row" style="border:1px dashed ">
+                        <div class="col m12 s12" style="margin-top:10px; padding:10px; border-bottom: 1px dashed">
+                            <label class="pull-left"><i class="fa fa-plane"></i> Fight: </label><label class="pull-right">@Model.Flight.FlightTo</label>
+                        </div>
+                        <div class="col m12 s12" style="margin-top:10px; padding:10px; border-bottom: 1px dashed">
+                            <label class="pull-left"><i class="fa fa-plane"></i> Plane: </label><label class="pull-right">@Model.Flight.Plane</label>
+                        </div>
+                        <div class="col m12 s12" style="margin-top:10px; padding:10px; border-bottom: 1px dashed">
+                            <label class="pull-left"><i class="fa fa-money"></i> Cost Of Flight: </label><label class="pull-right">$@Model.Flight.CostOfFlight</label>
+                        </div>
+                        <div class="col m12 s12" style="margin-top:10px; padding:10px; border-bottom: 1px dashed">
+                            <label class="pull-left"><i class="fa fa-calender"></i> Date Of Flight: </label><label class="pull-right">@Model.Flight.DateOfFlight</label>
+                        </div>
+                        <div class="col m12 s12" style="margin-top:10px; padding:10px; border-bottom: 1px dashed">
+                            <label class="pull-left"><i class="fa fa-money"></i> Cost Of Seat: </label><label class="pull-right">$@Model.CostOfSeat</label>
+                        </div>
+                        <div class="col m12 s12" style="margin-top:10px; padding:10px; border-bottom: 1px dashed">
+                            <label class="pull-left"><i class="fa fa-suitcase"></i> Luggage: </label><label class="pull-right">@Model.Flight.UsuableWeightAvailable lbs pounds</label>
+                        </div>
+                        <div class="col m12 s12" style="margin-top:10px; padding:10px; border-bottom: 1px dashed">
+                            <label class="pull-left"><img src="~/images/icon/fs.png" style="width:20px;height:20px" alt=""> Letf Seats Available: @Model.Flight.NumberOfLeftSeats </label><span class="pull-right"><input type="number" min="0" max="@Model.Flight.NumberOfLeftSeats" class="validate" name="LeftSeats" required></span>
+                        </div>
+                        <div class="col m12 s12" style="margin-top:10px; padding:10px; border-bottom: 1px dashed">
+                            <label class="pull-left"><img src="~/images/icon/fs.png" style="width:20px;height:20px" alt=""> Right Seats Available: @Model.Flight.NumberOfRightSeats </label><span class="pull-right"><input type="number" min="0" max="@Model.Flight.NumberOfRightSeats" class="validate" name="RightSeats" required></span>
+                        </div>
+                        <div class="col m12 s12" style="margin-top:10px; padding:10px;">
+                            <label class="pull-left"><img src="~/images/icon/fs.png" style="width:20px;height:20px" alt=""> Rear Seats Available: @Model.Flight.NumberOfRearSeats </label><span class="pull-right"><input type="number" min="0" max="@Model.Flight.NumberOfRearSeats" class="validate" name="RearSeats" required></span>
+                        </div>
+                    </div>
+
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input type="submit" value="Book Now" class="waves-effect waves-light tourz-sear-btn v2-ser-btn">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+

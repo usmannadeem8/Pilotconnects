@@ -1,0 +1,41 @@
+﻿
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title">Upload Profile Picture</h4>
+
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="Home" asp-action="UploadFile" method="post"
+                      enctype="multipart/form-data">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">Image</label>
+                                <input type="file" class="form-control multipleSelect" multiple name="files" />
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-primary btn-icon-text">Upload</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+       
+                &nbsp;
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>

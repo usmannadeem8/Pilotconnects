@@ -1,0 +1,77 @@
+﻿@model Zealous.Models.ViewModel.HomeViewModel
+@using Zealous.Helper;
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Mvc;
+@inject IHttpContextAccessor HttpContextAccessor;
+@{
+    ViewData["Title"] = "Connect With Pilots";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var Dp = HttpContextAccessor.HttpContext.Session.GetString("Dp");
+}
+
+<!--====== EVENTS ==========-->
+<section>
+    <div class="rows inn-page-bg com-colo">
+        <div class="container inn-page-con-bg events events-1 tb-space" id="inner-page-title">
+            <!-- TITLE & DESCRIPTION -->
+            <div class="spe-title col-md-12">
+                <h2>Search <span> Pilot</span></h2>
+                <div class="title-line">
+                    <div class="tl-1"></div>
+                    <div class="tl-2"></div>
+                    <div class="tl-3"></div>
+                </div>
+                <p></p>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-6"> <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search by Name.." title="Type in a name"></div>
+                <div class="col-md-6"> <input type="text" id="myInput2" onkeyup="myFunction2()" placeholder="Search by Airport.." title="Type in a name"></div>
+
+                <table id="myTable">
+                    <tbody>
+                        <tr>
+                            <th></th>
+                            <th>Full Name</th>
+                            <th class="e_h1">Homebase Airport</th>
+                            <th class="e_h1">Certificate Type</th>
+                            <th class="e_h1">FAA</th>
+                            <th>Details</th>
+                        </tr>
+                        @foreach (var item in Model.UserV)
+                        {
+                            <tr>
+                                @if (item.ImagePath!= null)
+                                {
+                                    <td>
+                                        <img class="center-align" src="~/@item.ImagePath" id="dp" alt="">
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td><img src="~/Admin/images/placeholder.jpg" alt=""></td>
+                                }
+
+                                <td><a href="/Users/UserProfile?userId=@Helper.Encrypt(item.Id.ToString())">@item.FirstName @item.LastName</a> </td>
+                                <td class="e_h1">@item.AirportName</td>
+                                <td class="e_h1">@item.CertificateType</td>
+                                <td class="e_h1">
+                                    @if (item.Faa == 1)
+                                    {
+                                        <span class="db-done">Approved</span>
+                                    }
+                                    else if (item.Faa == 0)
+                                    {
+                                        <span class="db-not-done">Pending</span>
+                                    }
+                                </td>
+                                <td><a href="/Users/UserProfile?userId=@Helper.Encrypt(item.Id.ToString())" class="link-btn">View Profile</a> </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+

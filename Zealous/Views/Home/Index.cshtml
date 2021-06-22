@@ -1,0 +1,422 @@
+﻿@model Zealous.Models.ViewModel.HomeViewModel
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Mvc;
+@using System.Diagnostics;
+@using System.Linq;
+@using Zealous.Controllers;
+@using Zealous.Helper;
+@inject IHttpContextAccessor HttpContextAccessor;
+
+@{
+    ViewData["Title"] = "Home";
+    var AirportsList2 = (IEnumerable<string>)ViewBag.Airports2;
+    var UserId = HttpContextAccessor.HttpContext.Session.GetString("UserId");
+    var FullName = HttpContextAccessor.HttpContext.Session.GetString("FullName");
+}
+
+<section>
+    <div class="v2-hom-search">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="v2-ho-se-ri">
+                        <h5>World's greatest time building and networking Website</h5>
+                        <h1>Build time. Your way.</h1>
+                        <p>Experience the opportunity to connect with pilots nationwide.</p>
+                        <div class="tourz-hom-ser v2-hom-ser">
+                            <ul>
+                                <li style="margin-right:5%">
+                                    <a href="https://www.hertz.com" class="waves-effect waves-light btn-large tourz-pop-ser-btn"><img src="~/images/icon/30.png" alt=""> Rental Car</a>
+                                </li>
+                                <li style="margin-right:5%">
+                                    <a class="waves-effect waves-light btn-large tourz-pop-ser-btn"><img src="~/images/icon/31.png" alt=""> Flight</a>
+                                </li>
+
+                                <li>
+                                    <a href="https://www.hilton.com/en/" class="waves-effect waves-light btn-large tourz-pop-ser-btn"><img src="~/images/icon/1.png" alt=""> Hotel</a>
+                                </li>
+                                <li>
+
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <img style="width:90%" src="~/images/plane2.png" alt="">
+                    @*<div class="">
+                            <form class=" v2-search-form" asp-controller="Home" asp-action="SearchFlight">
+
+
+                                <div class="row">
+                                    <div class="form-group col m12 s12">
+                                        <select class="form-control selectpicker" data-show-subtext="true" data-live-search="true" name="DepartureAirport">
+                                            <option value="" data-tokens="Select Departure Airport" disabled selected>Select Departure Airport*</option>
+                                            @foreach (var item in AirportsList)
+                                            {
+                                                <option data-tokens="@item.Airport" value="@item.Id">@item.Airport</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="form-group col m12 s12">
+                                        <select class="form-control selectpicker" data-show-subtext="true" data-live-search="true" name="DestinationAirport">
+                                            <option value="" disabled selected>Select Destination Airport*</option>
+                                            @foreach (var item in AirportsList)
+                                            {
+                                                <option data-tokens="@item.Airport" value="@item.Id">@item.Airport</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col m12 s6">
+                                        <input type="date" id="from" name="DateOfFlight">
+
+                                    </div>
+
+                                </div>
+                                <div class="row">
+
+                                    <div class="input-field col m4 s12">
+                                        <input type="number" class="validate" name="NoOfLeftSeats">
+                                        <label>No Of Left Seats</label>
+                                    </div>
+                                    <div class="input-field col m4 s12">
+                                        <input type="number" class="validate" name="NoOfRightSeats">
+                                        <label>No Of Right Seats</label>
+                                    </div>
+                                    <div class="input-field col m4 s12">
+                                        <input type="number" class="validate" name="NoOfRearSeats">
+                                        <label>No Of Rear Seats</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s6">
+                                        <select class="form-control selectpicker" data-show-subtext="true" data-live-search="true" name="Minprice">
+                                            <option value="" disabled selected>Min Price</option>
+                                            <option value="200">$200</option>
+                                            <option value="500">$500</option>
+                                            <option value="1000">$1000</option>
+                                            <option value="5000">$5000</option>
+                                            <option value="10000">$10,000</option>
+                                            <option value="50000">$50,000</option>
+                                        </select>
+                                    </div>
+                                    <div class="input-field col s6">
+                                        <select class="form-control selectpicker" data-show-subtext="true" data-live-search="true" name="Maxprice">
+                                            <option value="" disabled selected>Max Price</option>
+                                            <option value="200">$200</option>
+                                            <option value="500">$500</option>
+                                            <option value="1000">$1000</option>
+                                            <option value="5000">$5000</option>
+                                            <option value="10000">$10,000</option>
+                                            <option value="50000">$50,000</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input type="submit" value="Search Flight" class="waves-effect waves-light tourz-sear-btn v2-ser-btn">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--END HEADER SECTION-->
+
+
+<div style="margin-top:80px" class="spe-title col-md-12">
+    <h2><span>Instagram Feed</span></h2>
+    <div class="title-line">
+        <div class="tl-1"></div>
+        <div class="tl-2"></div>
+        <div class="tl-3"></div>
+    </div>
+</div>
+
+<div class='sk-ww-instagram-hashtag-feed' data-embed-id='53854'></div>
+
+
+
+
+
+
+@if (UserId != null)
+{
+    <section>
+        <div class="rows pad-bot-redu tb-space">
+            <div class="container">
+                <!-- TITLE & DESCRIPTION -->
+                <div class="spe-title">
+                    <h2>Flight <span>Board</span></h2>
+                    <div class="title-line">
+                        <div class="tl-1"></div>
+                        <div class="tl-2"></div>
+                        <div class="tl-3"></div>
+                    </div>
+                    <p>Find your next flight opportunity.</p>
+                </div>
+                <div>
+                    <!-- TOUR PLACE 1 -->
+                    <div class="row">
+                        <div class="hot-page2-alp-con">
+                            <!--LEFT LISTINGS-->
+                            <div class="col-md-3 hot-page2-alp-con-left">
+                                <!--PART 1 : LEFT LISTINGS-->
+                                <div class="hot-page2-alp-con-left-1">
+                                    <h3>Search Flights</h3>
+                                </div>
+                                <!--PART 2 : LEFT LISTINGS-->
+                                <div class="hot-page2-alp-l3 hot-page2-alp-l-com">
+                                    <h4><i class="fa fa-calendar-check-o" aria-hidden="true"></i> Travel Available Check</h4>
+                                    <div class="hot-page2-alp-l-com1 hot-room-ava-check">
+                                        <form class="v2-search-form package-form" asp-controller="Home" asp-action="SearchFlight">
+
+
+                                            <div class="row">
+                                                <div class="form-group col m12 s12">
+                                                    <select class="form-control selectpicker" onchange="getdepartureairport()" data-show-subtext="true" data-live-search="true" id="DepartureAirportState">
+                                                        <option style="background:white;border-color:white" value="" disabled selected>Select Departure State*</option>
+                                                        @foreach (var item in AirportsList2)
+                                                        {
+                                                            <option style="background:white;border-color:white" value="@item">@item</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col m12 s12" style="display:none" id="deptddl">
+
+
+                                                </div>
+                                                <div class="input-field col m12 s12">
+                                                    <select class="form-control selectpicker" onchange="getdestinationairport()" data-show-subtext="true" data-live-search="true" id="DestinationAirportState">
+                                                        <option style="background:white;border-color:white" value="" disabled selected>Select Destination State*</option>
+                                                        @foreach (var item in AirportsList2)
+                                                        {
+                                                            <option style="background:white;border-color:white" value="@item">@item</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col m12 s12" style="display:none" id="deptddl2">
+
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="input-field col m12 s12">
+                                                    <input type="date" id="from" name="DateOfFlight">
+                                                    @*<label for="from">Date Of Flight</label>*@
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+
+                                                <div class="input-field col m12 s12">
+                                                    <input type="number" class="validate" name="NoOfLeftSeats">
+                                                    <label>No Of Left Seats</label>
+                                                </div>
+                                                <div class="input-field col m12 s12">
+                                                    <input type="number" class="validate" name="NoOfRightSeats">
+                                                    <label>No Of Right Seats</label>
+                                                </div>
+                                                <div class="input-field col m12 s12">
+                                                    <input type="number" class="validate" name="NoOfRearSeats">
+                                                    <label>No Of Rear Seats</label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="input-field col m12 s6">
+                                                    <select class="form-control selectpicker" data-show-subtext="true" data-live-search="true" name="Minprice">
+                                                        <option style="background:white;border-color:white" value="" disabled selected>Min Price</option>
+                                                        <option style="background:white;border-color:white" value="200">$200</option>
+                                                        <option style="background:white;border-color:white" value="500">$500</option>
+                                                        <option style="background:white;border-color:white" value="1000">$1000</option>
+                                                        <option style="background:white;border-color:white" value="5000">$5000</option>
+                                                        <option style="background:white;border-color:white" value="10000">$10,000</option>
+                                                        <option style="background:white;border-color:white" value="50000">$50,000</option>
+                                                    </select>
+                                                </div>
+                                                <div class="input-field col m12 s6">
+                                                    <select class="form-control selectpicker" data-show-subtext="true" data-live-search="true" name="Maxprice">
+                                                        <option style="background:white;border-color:white" value="" disabled selected>Max Price</option>
+                                                        <option style="background:white;border-color:white" value="200">$200</option>
+                                                        <option style="background:white;border-color:white" value="500">$500</option>
+                                                        <option style="background:white;border-color:white" value="1000">$1000</option>
+                                                        <option style="background:white;border-color:white" value="5000">$5000</option>
+                                                        <option style="background:white;border-color:white" value="10000">$10,000</option>
+                                                        <option style="background:white;border-color:white" value="50000">$50,000</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="input-field col m12 s12">
+                                                    <input type="submit" value="Search Flight" class="waves-effect waves-light tourz-sear-btn v2-ser-btn">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <!--PART 4 : LEFT LISTINGS-->
+
+
+                            </div>
+                            <!--END LEFT LISTINGS-->
+                            <!--RIGHT LISTINGS-->
+                            <div class="col-md-9 hot-page2-alp-con-right">
+                                <div class="hot-page2-alp-con-right-1">
+                                    <!--LISTINGS-->
+                                    <div class="row">
+                                        @foreach (var item in Model.Flights)
+                                        {
+                                            <!--LISTINGS START-->
+                                            <div class="hot-page2-alp-r-list">
+                                                <div class="col-md-3 hot-page2-alp-r-list-re-sp">
+                                                    <a href="javascript:void(0);">
+                                                        <div class="hotel-list-score">4.5</div>
+                                                        <div class="hot-page2-hli-1"> <img src="~/images/package/1.jpg" alt=""> </div>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="trav-list-bod">
+                                                        <div class="row">
+
+                                                            <a href=""><h3>@item.FlightTo </h3></a>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12 text-primary"><a href="/Users/UserProfile?userId=@Helper.Encrypt(item.PilotId.ToString())"><i class="fa fa-user"></i> @item.Pilot.FirstName @item.Pilot.LastName</a></div>
+                                                        </div>
+                                                        <br />
+                                                        <div class="row">
+                                                            <div class="col-md-12 text-primary"><i class="fa fa-plane"></i> Plane: @item.Plane</div>
+                                                        </div>
+                                                        <br />
+                                                        <div class="row">
+                                                            <div class="col-md-12 text-primary"><i class="fa fa-map-marker"></i> Departure Airport: @item.DepartureAirportNavigation.Airport</div>
+                                                        </div>
+                                                        <br />
+                                                        <div class="row">
+                                                            <div class="col-md-12 text-primary"><i class="fa fa-map-marker"></i>  Destination Airport: @item.DestinationAirportNavigation.Airport</div>
+                                                        </div>
+
+
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <div class="hot-page2-alp-ri-p3 tour-alp-ri-p3">
+
+                                                        <span class="hot-list-p3-1">Price to be split between pilots</span> <span class="hot-list-p3-2">$@item.CostOfFlight</span><span class="hot-list-p3-4">
+                                                            <a href="@Url.Action("BookNow", "Flights", new { EFID = Helper.Encrypt(item.Id.ToString()) })" class="hot-page2-alp-quot-btn">Book Now</a>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="trav-ami">
+                                                        <h4>Details</h4>
+                                                        <ul>
+                                                            @if (item.Pilot.Faa == 1)
+                                                            {
+                                                                <li><img src="~/images/approved.png" style="height:20px;width:20px"><span>FAA</span></li>
+                                                            }
+                                                            @*<li><i class="fa fa-plane"></i><br /> <span>Plane: @item.Plane</span></li>*@
+                                                            <li><i class="fa fa-plane"></i><br /> <span> @item.FlightType</span></li>
+                                                            <li><img src="~/images/icon/fs.png" alt=""> <span>Total Seats: @{var seat = item.NumberOfLeftSeats + item.NumberOfRightSeats + item.NumberOfRearSeats;} @seat</span></li>
+                                                            <li><img src="~/images/icon/a17.png" alt=""> <span> @item.UsuableWeightAvailable lbs pounds</span></li>
+                                                            <li><img src="~/images/icon/dbl4.png" alt=""> <span>Date: @item.DateOfFlight</span></li>
+
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        <!--END LISTINGS-->
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--END RIGHT LISTINGS-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+
+
+<script>
+
+    function getdepartureairport() {
+        var cid = $("#DepartureAirportState").val();
+        var html = "";
+        var params = { State: cid };
+        $.ajax({
+            url: "/Home/GetAirports",
+            type: "GET",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            //data: {"caseid": caseId, "minuteid": minId ,"title": title , "description": description},
+            data: params,
+            success: function (response) {
+                html = html + "<label class='control-label'>Select Departure Airport*</label>";
+                html = html + "  <select class='form-control selectpicker' data-show-subtext='true' data-live-search='true' name='DepartureAirport'>< option value='' > Select Value</option >"
+
+                $.each(response, function (key, item) {
+                    html = html + "<option data-tokens=" + item.airport + " value=" + item.id + ">" + item.airport + " </option>";
+
+                });
+                html = html + "</select>";
+                $("#deptddl").empty();
+                $("#deptddl").html(html);
+                $("#deptddl").show();
+
+            },
+            error: function (response) {
+                //alert("Error:"+response);
+                console.log("Error:" + response.toString());
+            },
+            failure: function (response) {
+                console.log("Failure:" + response);
+            }
+        });
+    }
+    function getdestinationairport() {
+        var cid = $("#DestinationAirportState").val();
+        var html = "";
+        var params = { State: cid };
+        $.ajax({
+            url: "/Home/GetAirports",
+            type: "GET",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            //data: {"caseid": caseId, "minuteid": minId ,"title": title , "description": description},
+            data: params,
+            success: function (response) {
+                html = html + "<label class='control-label'>Select Destination Airport*</label>";
+                html = html + "  <select class='form-control selectpicker' data-show-subtext='true' data-live-search='true' name='DestinationAirport'>< option value='' > Select Value</option >"
+
+                $.each(response, function (key, item) {
+                    html = html + "<option value=" + item.id + ">" + item.airport + " </option>";
+
+                });
+                html = html + "</select>";
+                $("#deptddl2").empty();
+                $("#deptddl2").html(html);
+                $("#deptddl2").show();
+
+            },
+            error: function (response) {
+                //alert("Error:"+response);
+                console.log("Error:" + response.toString());
+            },
+            failure: function (response) {
+                console.log("Failure:" + response);
+            }
+        });
+    }
+</script>
+<script src='https://www.sociablekit.com/app/embed/instagram-hashtag-feed/widget.js' async defer></script>

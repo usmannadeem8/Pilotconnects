@@ -1,0 +1,79 @@
+﻿@model Zealous.Models.DB.Booking
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_pilotHeader.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Booking</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LeftSeat)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LeftSeat)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RightSeat)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RightSeat)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RearSeat)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RearSeat)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CostOfSeat)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CostOfSeat)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalCost)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TotalCost)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateAdded)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateAdded)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Flight)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Flight.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Member)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Member.ConfirmPassword)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Pilot)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Pilot.ConfirmPassword)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

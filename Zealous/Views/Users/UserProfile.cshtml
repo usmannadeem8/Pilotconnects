@@ -1,0 +1,171 @@
+﻿@model Zealous.Models.ViewModel.HomeViewModel
+@using Zealous.Helper;
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Mvc;
+@inject IHttpContextAccessor HttpContextAccessor;
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var UserId = HttpContextAccessor.HttpContext.Session.GetString("UserId");
+    var FullName = HttpContextAccessor.HttpContext.Session.GetString("FullName");
+    var Dp = HttpContextAccessor.HttpContext.Session.GetString("Dp");
+}
+
+<section>
+    <div class="db">
+        <!--LEFT SECTION-->
+        <div class="db-l">
+            <div class="db-l-1 center-block" style="border-radius:150px;width:80%;height:80%">
+                <ul class="center-align">
+                    @if (Model.User.ImagePath != null)
+                    {
+                        <li style="align-content:center">
+                            <img class="center-align" src="~/@Model.User.ImagePath" id="dp" alt="">
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <img src="~/Admin/images/placeholder.jpg" id="dp2" alt="">
+                        </li>
+                    }
+
+
+                </ul>
+            </div>
+
+            @if (Model.User.Id.ToString() != UserId)
+            {
+                <div class="db-1-1 center-block" style="margin:20px">
+                 <a class="btn btn-primary btn-large"  style="padding-top:15px;padding-left:55px;padding-right:55px; background:#ff7a7a;border-color:#ff6c6c" href="@Url.Action("ChatAllow","Notifications",new {UserId1=Helper.Encrypt(UserId.ToString()),UserId2=Helper.Encrypt(Model.User.Id.ToString()) })"><i class="fa fa-envelope"></i> Message</a>
+                     
+                </div>
+            }
+            <div class="db-l-2">
+                <ul>
+                    @if (Model.User.Id.ToString() == UserId)
+                    {
+                        <li class="bg-primary">
+                            <a style="color:white; text-align:center" href="/Home/PilotDashboard"><img src="images/icon/dbl1.png" alt="" /><i class="fa fa-plane"></i> Switch To Pilot</a>
+                        </li>
+                        <li>
+
+                        </li>
+                        <li>
+                            <a href="/Home/MemberDashboard"><i class="fa fa-bar-chart"></i> Dashboard</a>
+                        </li>
+                       
+                        <li>
+                            <a href="/Chats/Index"><i class="fa fa-envelope"></i> Messages</a>
+                        </li>
+                    }
+
+
+                    <li>
+                        <a href="/Home/AllFlight"><i class="fa fa-search"></i> Search Flights</a>
+                    </li>
+
+                    <li>
+                        <a href="/Home/ContactUs"><i class="fa fa-phone"></i> Contact Us</a>
+                    </li>
+                    @if (Model.User.Id.ToString() == UserId)
+                    {
+                        <li>
+                            <a href="/Users/CompleteProfile"><i class="fa fa-user"></i> Edit Profile</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <!--CENTER SECTION-->
+        <div class="db-2">
+            <div class="db-2-com db-2-main">
+                <h4>@Model.User.FirstName @Model.User.LastName <img src="~/images/approved.png" style="height:30px;width:30px"></h4>
+                <div class="db-2-main-com db-2-main-com-table">
+                    <table class="responsive-table">
+                        <thead>
+                            <tr>
+                                <th style="width:20%">
+
+                                </th>
+                                <th style="width:10%">
+
+                                </th>
+                                <th style="width:70%">
+
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td>Full Name</td>
+                                <td>:</td>
+                                <td>
+                                    @Model.User.FirstName @Model.User.LastName
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Home Base</td>
+                                <td>:</td>
+                                <td>@Model.User.Airport.Airport</td>
+                            </tr>
+
+                            <tr>
+                                <td>Pilot License Number</td>
+                                <td>:</td>
+                                <td>@Model.User.PilotLicenseNumber</td>
+                            </tr>
+                            <tr>
+                                <td>Certificate Type</td>
+                                <td>:</td>
+                                <td>@Model.User.CertificateType</td>
+                            </tr>
+                            <tr>
+                                <td>Pilot Rating(s)</td>
+                                <td>:</td>
+                                <td>@Model.User.PilotRating</td>
+                            </tr>
+                            <tr>
+                                <td>About Me</td>
+                                <td>:</td>
+                                <td>@Model.User.AboutMe</td>
+                            </tr>
+                            <tr>
+                                <td>Career Goals</td>
+                                <td>:</td>
+                                <td>@Model.User.CareerGoals</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    @if(Model.User.Id.ToString() == UserId)
+                    {
+                        <div class="db-mak-pay-bot">
+                            <a href="/Users/CompleteProfile" class="waves-effect waves-light btn-large">Edit my profile</a>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+        <!--RIGHT SECTION-->
+        <div class="db-3">
+            <h4>Trending Flights</h4>
+            <ul>
+                @foreach (var item in Model.Flights)
+                {
+                    <li>
+                        <a href="@Url.Action("BookNow","Flights",new {EFID=Helper.Encrypt(item.Id.ToString()) })">
+                            <img src="~/images/package/1.jpg" alt="">
+                            <h5>@item.FlightTo</h5>
+                            <p>Cost Of Flight: $@item.CostOfFlight</p>
+                        </a>
+                    </li>
+                }
+
+            </ul>
+        </div>
+    </div>
+</section>
+

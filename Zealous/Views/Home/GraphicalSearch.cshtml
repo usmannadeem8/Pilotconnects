@@ -1,0 +1,225 @@
+﻿
+@{
+    ViewData["Title"] = "Flight Map View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var AirportsList2 = (IEnumerable<string>)ViewBag.Airports2;
+}
+
+    
+
+<html>
+<head>
+    <style>
+        #map {
+            height: 700px;
+            width: 100%
+        }
+    </style>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="">
+                <form class=" v2-search-form">
+
+
+                    <div class="row">
+                        <div class="input-field col m2 s12">
+                            <select class="form-control selectpicker" onchange="getdepartureairport()" data-show-subtext="true" data-live-search="true" id="DepartureAirportState">
+                                <option style="background:white;border-color:white" value="" disabled selected>Select Departure State*</option>
+                                @foreach (var item in AirportsList2)
+                                {
+                                    <option style="background:white;border-color:white" value="@item">@item</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="input-field col m2 s12" style="display:none" id="deptddl">
+
+                        </div>
+                        <div class="input-field col m2 s12">
+                            <select class="form-control selectpicker" onchange="getdestinationairport()" data-show-subtext="true" data-live-search="true" id="DestinationAirportState">
+                                <option style="background:white;border-color:white" value="" disabled selected>Select Destination State*</option>
+                                @foreach (var item in AirportsList2)
+                                {
+                                    <option style="background:white;border-color:white" value="@item">@item</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="input-field col m2 s12" style="display:none" id="deptddl2">
+
+                        </div>
+                        <div class="input-field col m2 s6">
+                            <input type="date" id="from" name="DateOfFlight">
+                            @*<label for="from">Date Of Flight</label>*@
+                        </div>
+                        <div class="input-field col m2 s12">
+                            <input type="button" onclick="GetValues()" value="Search Flight" class="waves-effect waves-light tourz-sear-btn v2-ser-btn">
+                        </div>
+                    </div>
+
+
+
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="map"></div>
+    <script>
+
+        function initMap() {
+            ShowFlights();
+        }
+
+    </script>
+    <script defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8tN4DnkYmtx0s0k0Z5xbK3yb0m_5zGSY&callback=initMap">
+    </script>
+    <script>
+        function ShowFlights() {
+            var desair = $("#desair").val();
+            var depair = $("#depair").val();
+            var date = $("#from").val();
+            var params = { DepartureAirport: depair, DestinationAirport: desair, DateOfFlight: date };
+            $.ajax({
+                url: "/Home/GetFlights",
+                type: "GET",
+                contentType: "application/json",
+                dataType: "json",
+                data: params,
+                success: function (results) {
+                    var options = {
+                        zoom: 4,
+                        center: { lat: 41.850033, lng: - 87.6500523 },
+                    };
+                    var map = new google.maps.Map(document.getElementById('map'), options);
+
+                    const image =
+                        "https://cdn1.iconfinder.com/data/icons/locations-redesign/48/Plane1-32.png";
+
+                    $.each(results, function (key, item) {
+
+
+                        var marker1 = new google.maps.Marker({
+
+                            position: { lat: item.depLat, lng: item.depLang },
+                            map: map,
+                            title: item.flightName,
+                            icon: image,
+                            url: "/Flights/BookNow?EFID=" + item.flightEid
+
+                        });
+                        google.maps.event.addListener(marker1, 'click', function () {
+                            window.location.href = this.url;
+                        });
+                        var marker2 = new google.maps.Marker({
+                            position: { lat: item.desLat, lng: item.desLang },
+                            map: map,
+                            title: item.flightName,
+                            url: "/Flights/BookNow?EFID=" + item.flightEid
+                        });
+                        google.maps.event.addListener(marker2, 'click', function () {
+                            window.location.href = this.url;
+                        });
+
+                        var flightPath = new google.maps.Polyline({
+                            path: [{ lat: item.depLat, lng: item.depLang }, { lat: item.desLat, lng: item.desLang }],
+                            geodesic: true,
+                            strokeColor: '#FF0000',
+                            strokeOpacity: 1.0,
+                            strokeWeight: 5,
+
+                        });
+
+                        flightPath.setMap(map);
+
+                    });
+
+
+
+                },
+
+                error: function (e) {
+                    alert("Fail");
+                }
+            });
+        }
+
+        function GetValues() {
+            $("#map").empty();
+            initMap();
+        }
+
+    </script>
+    <script>
+
+        function getdepartureairport() {
+            var cid = $("#DepartureAirportState").val();
+            var html = "";
+            var params = { State: cid };
+            $.ajax({
+                url: "/Home/GetAirports",
+                type: "GET",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                //data: {"caseid": caseId, "minuteid": minId ,"title": title , "description": description},
+                data: params,
+                success: function (response) {
+                    html = html + "  <select class='form-control selectpicker' id='depair' data-show-subtext='true' data-live-search='true' name='DepartureAirport'>< option value='' > Select Departure Airport*</option >"
+
+                    $.each(response, function (key, item) {
+                        html = html + "<option value=" + item.id + ">" + item.airport + " </option>";
+
+                    });
+                    html = html + "</select>";
+                    $("#deptddl").empty();
+                    $("#deptddl").html(html);
+                    $("#deptddl").show();
+
+                },
+                error: function (response) {
+                    //alert("Error:"+response);
+                    console.log("Error:" + response.toString());
+                },
+                failure: function (response) {
+                    console.log("Failure:" + response);
+                }
+            });
+        }
+        function getdestinationairport() {
+            var cid = $("#DestinationAirportState").val();
+            var html = "";
+            var params = { State: cid };
+            $.ajax({
+                url: "/Home/GetAirports",
+                type: "GET",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                //data: {"caseid": caseId, "minuteid": minId ,"title": title , "description": description},
+                data: params,
+                success: function (response) {
+                    html = html + "  <select class='form-control selectpicker' id='desair' data-show-subtext='true' data-live-search='true' name='DestinationAirport'><option value='' disabled > Select Destination Airport*</option >"
+
+                    $.each(response, function (key, item) {
+                        html = html + "<option value=" + item.id + ">" + item.airport + " </option>";
+
+                    });
+                    html = html + "</select>";
+                    $("#deptddl2").empty();
+                    $("#deptddl2").html(html);
+                    $("#deptddl2").show();
+
+                },
+                error: function (response) {
+                    //alert("Error:"+response);
+                    console.log("Error:" + response.toString());
+                },
+                failure: function (response) {
+                    console.log("Failure:" + response);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

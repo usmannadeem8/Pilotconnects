@@ -1,0 +1,236 @@
+﻿@model Zealous.Models.ViewModel.HomeViewModel
+@using Zealous.Helper;
+@{
+    ViewData["Title"] = "Pilot Dashboard";
+    Layout = "~/Views/Shared/_PilotLayout.cshtml";
+}
+
+
+
+
+
+<!--== breadcrumbs ==-->
+<div class="sb2-2-2">
+    <ul>
+        <li>
+            <a href="index.html"><i class="fa fa-home" aria-hidden="true"></i> Home</a>
+        </li>
+        <li class="active-bre">
+            <a href="#"> Dashboard</a>
+        </li>
+        <li class="page-back">
+            <a href="/Home/PilotDashboard"><i class="fa fa-backward" aria-hidden="true"></i> Back</a>
+        </li>
+    </ul>
+</div>
+<!--== DASHBOARD INFO ==-->
+<div class="ad-v2-hom-info">
+    <div class="ad-v2-hom-info-inn">
+        <ul>
+            <li>
+                <div class="ad-hom-box ad-hom-box-1">
+                    <span class="ad-hom-col-com ad-hom-col-1"><i class="fa fa-plane"></i></span>
+                    <div class="ad-hom-view-com">
+                        <p style="margin-bottom:0px"> <small><i class="fa  fa-arrow-up up"></i> Active Flights</small>  </p>
+                        <h5>@Model.FlightCount </h5>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="ad-hom-box ad-hom-box-2">
+                    <span class="ad-hom-col-com ad-hom-col-2"><i class="fa fa-bell"></i></span>
+                    <div class="ad-hom-view-com">
+                        <p style="margin-bottom:0px"> <small><i class="fa  fa-arrow-up up"></i> Notifications</small>  </p>
+                        <h5 id="noti">@Model.NotificationCount </h5>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="ad-hom-box ad-hom-box-3">
+                    <span class="ad-hom-col-com ad-hom-col-3"><i class="fa fa-ticket"></i></span>
+                    <div class="ad-hom-view-com">
+                        <p style="margin-bottom:0px"> <small><i class="fa  fa-arrow-up up"></i> Active Bookings</small>  </p>
+                        <h5>@Model.BookingCount </h5>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="ad-hom-box ad-hom-box-4">
+                    <span class="ad-hom-col-com ad-hom-col-4"><i class="fa fa-envelope-open-o"></i></span>
+                    <div class="ad-hom-view-com">
+                        <p style="margin-bottom:0px"> <small><i class="fa  fa-arrow-up up"></i> New Message</small>  </p>
+                        <h5 id="messagee">@Model.NewMessageCount </h5>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<!--== User Details ==-->
+<div class="sb2-2-3">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box-inn-sp">
+                <div class="inn-title">
+                    <h4>Active Flights</h4>
+                    <p>Top 10 Flights</p>
+                    <a class="btn btn-sm btn-primary pull-right" href="/Flights/Index" data-activates="dr-users">View All</a>
+                  
+                    <!-- Dropdown Structure -->
+
+                </div>
+                <div class="tab-inn">
+                    <div class="table-responsive table-desi">
+                        <table class="table table-hover" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Flight To
+                                    </th>
+                                    <th>
+                                        Departure Airport
+                                    </th>
+                                    <th>
+                                        Destination Airport
+                                    </th>
+                                    <th>
+                                        Left Seats
+                                    </th>
+                                    <th>
+                                        Right Seats
+                                    </th>
+                                    <th>
+                                        Rear Seats
+                                    </th>
+                                    <th>
+                                        Cost Of Flight
+                                    </th>
+                                    <th>
+                                        Usuable Weight Available
+                                    </th>
+                                    <th>
+                                        Date Of Flight
+                                    </th>
+
+
+
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Flights)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FlightTo)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DepartureAirportNavigation.Airport)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DestinationAirportNavigation.Airport)
+                                        </td>
+                                        <td>
+                                            <span class="label label-success"> @Html.DisplayFor(modelItem => item.NumberOfLeftSeats)</span>
+                                        </td>
+                                        <td>
+                                            <span class="label label-info"> @Html.DisplayFor(modelItem => item.NumberOfRightSeats)</span>
+</td>
+                                        <td>
+                                            <span class="label label-warning">  @Html.DisplayFor(modelItem => item.NumberOfRearSeats)</span>
+</td>
+                                        <td>
+                                            <span class="label label-danger"> $@Html.DisplayFor(modelItem => item.CostOfFlight) </span>
+</td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.UsuableWeightAvailable) lbs pounds
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DateOfFlight)
+                                        </td>
+
+                                        <td>
+                                            <span class="label label-success"> Active</span>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="sb2-2-3">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box-inn-sp">
+                <div class="inn-title">
+                    <h4>Confirm Bookings</h4>
+                    <p>Top 10 Bookings</p>
+                    <a class="btn btn-sm btn-primary pull-right" href="/Bookings/BookingFlights" data-activates="dr-users">View All</a>
+
+                    <!-- Dropdown Structure -->
+
+                </div>
+                <div class="tab-inn">
+                    <div class="table-responsive table-desi">
+                        <table class="table table-hover" style="width:100%">
+                            <thead>
+                                <tr>
+                                   
+                                    <th>Full Name</th>
+                                    <th>Mobile</th>
+                                    <th>Email</th>
+                                    <th>No Of Seats</th>
+                                    <th>Price</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Bookings)
+                                {
+                                    <tr>
+                                    
+                                        <td>@item.Member.FirstName @item.Member.LastName</td>
+                                        <td>@item.Member.PhoneNumber</td>
+                                        <td>@item.Member.Email</td>
+                                        <td>@{var Total = item.LeftSeat + item.RearSeat + item.RightSeat;} <span class="label label-info"> @Total </span></td>
+
+                                        <td><span class="label label-danger">$@item.TotalCost </span></td>
+                                        <td>
+                                            @if (item.Status == 0)
+                                            {
+
+
+                                                <span class="db-not-done">Pending</span>
+
+                                            }
+                                            else if (item.Status == 1)
+                                            {
+                                                <span class="label label-success">Confirmed</span>
+                                            }
+                                            else if (item.Status == 2)
+                                            {
+                                                <span class="db-declined">Declined</span>
+                                            }
+
+                                        </td>
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--== Latest Activity ==-->
+
+

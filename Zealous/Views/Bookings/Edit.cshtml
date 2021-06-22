@@ -1,0 +1,77 @@
+﻿@model Zealous.Models.DB.Booking
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_pilotHeader.cshtml";
+}
+
+<h2>Edit</h2>
+
+<h4>Booking</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="FlightId" class="control-label"></label>
+                <select asp-for="FlightId" class="form-control" asp-items="ViewBag.FlightId"></select>
+                <span asp-validation-for="FlightId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PilotId" class="control-label"></label>
+                <select asp-for="PilotId" class="form-control" asp-items="ViewBag.PilotId"></select>
+                <span asp-validation-for="PilotId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MemberId" class="control-label"></label>
+                <select asp-for="MemberId" class="form-control" asp-items="ViewBag.MemberId"></select>
+                <span asp-validation-for="MemberId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LeftSeat" class="control-label"></label>
+                <input asp-for="LeftSeat" class="form-control" />
+                <span asp-validation-for="LeftSeat" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RightSeat" class="control-label"></label>
+                <input asp-for="RightSeat" class="form-control" />
+                <span asp-validation-for="RightSeat" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RearSeat" class="control-label"></label>
+                <input asp-for="RearSeat" class="form-control" />
+                <span asp-validation-for="RearSeat" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CostOfSeat" class="control-label"></label>
+                <input asp-for="CostOfSeat" class="form-control" />
+                <span asp-validation-for="CostOfSeat" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalCost" class="control-label"></label>
+                <input asp-for="TotalCost" class="form-control" />
+                <span asp-validation-for="TotalCost" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <input asp-for="Status" class="form-control" />
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateAdded" class="control-label"></label>
+                <input asp-for="DateAdded" class="form-control" />
+                <span asp-validation-for="DateAdded" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

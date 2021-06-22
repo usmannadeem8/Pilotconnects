@@ -1,0 +1,317 @@
+﻿@model Zealous.Models.ViewModel.AdminViewModel
+@using Zealous.Helper;
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="sb2-2-2">
+    <ul>
+        <li>
+            <a href="index.html"><i class="fa fa-home" aria-hidden="true"></i> Home</a>
+        </li>
+        <li class="active-bre">
+            <a href="#"> Dashboard</a>
+        </li>
+        <li class="page-back">
+            <a href="/Home/AdminDashboard"><i class="fa fa-backward" aria-hidden="true"></i> Back</a>
+        </li>
+    </ul>
+</div>
+<!--== DASHBOARD INFO ==-->
+<div class="container bg-white" style="padding:30px; border-radius:10px">
+    <div class="row">
+        @if (Model.MC == 1)
+        {
+            <div class="alert alert-info" style="padding:20px;margin-right:20px">
+                <strong>Server Maintenance!</strong> @Model.MD Days Left.
+            </div>
+            <div class="alert alert-success" style="padding:20px;">
+                <strong>Website Speed!</strong> 100%
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-danger" style="padding:20px;margin-right:20px">
+                <strong>Server Maintenance Required!</strong> Website is 30% Slower!
+            </div>
+            <div class="alert alert-warning" style="padding:20px;">
+                <strong>Website Speed!</strong> 70%
+            </div>
+        }
+
+    </div>
+</div>
+<div class="ad-v2-hom-info">
+
+    <div class="ad-v2-hom-info-inn">
+        <ul>
+            <li>
+                <div class="ad-hom-box ad-hom-box-1">
+                    <span class="ad-hom-col-com ad-hom-col-1"><i class="fa fa-money"></i></span>
+                    <div class="ad-hom-view-com">
+                        <p style="margin-bottom:0px"> <small><i class="fa  fa-arrow-up up"></i> Total Revenue</small>  </p>
+                        <h5>$@Model.TotalRevenue </h5>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="ad-hom-box ad-hom-box-2">
+                    <span class="ad-hom-col-com ad-hom-col-2"><i class="fa fa-money"></i></span>
+                    <div class="ad-hom-view-com">
+                        <p style="margin-bottom:0px"> <small><i class="fa  fa-arrow-up up"></i> This year</small>  </p>
+                        <h5 id="noti">$@Model.ThisYearRevenue </h5>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="ad-hom-box ad-hom-box-3">
+                    <span class="ad-hom-col-com ad-hom-col-3"><i class="fa fa-money"></i></span>
+                    <div class="ad-hom-view-com">
+                        <p style="margin-bottom:0px"> <small><i class="fa  fa-arrow-up up"></i> This Month</small>  </p>
+                        <h5>$@Model.ThisMonthRevenue </h5>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="ad-hom-box ad-hom-box-4">
+                    <span class="ad-hom-col-com ad-hom-col-4"><i class="fa fa-money"></i></span>
+                    <div class="ad-hom-view-com">
+                        <p style="margin-bottom:0px"> <small><i class="fa  fa-arrow-up up"></i> Today </small>  </p>
+                        <h5 id="messagee">$@Model.TodayRevenue </h5>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="ad-v2-hom-info-inn">
+        <ul>
+            <li>
+                <div class="ad-hom-box ad-hom-box-1">
+                    <span class="ad-hom-col-com ad-hom-col-1"><i class="fa fa-users"></i></span>
+                    <div class="ad-hom-view-com">
+                        <p style="margin-bottom:0px"> <small><i class="fa  fa-arrow-up up"></i> Total Users</small>  </p>
+                        <h5>@Model.TotalUserCount </h5>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="ad-hom-box ad-hom-box-2">
+                    <span class="ad-hom-col-com ad-hom-col-2"><i class="fa fa-user"></i></span>
+                    <div class="ad-hom-view-com">
+                        <p style="margin-bottom:0px"> <small><i class="fa  fa-arrow-up up"></i> Active Users</small>  </p>
+                        <h5 id="noti">@Model.ActiveUserCount </h5>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="ad-hom-box ad-hom-box-3">
+                    <span class="ad-hom-col-com ad-hom-col-3"><i class="fa fa-user-times"></i></span>
+                    <div class="ad-hom-view-com">
+                        <p style="margin-bottom:0px"> <small><i class="fa  fa-arrow-up up"></i> Inactive Users</small>  </p>
+                        <h5>@Model.InActiveUserCount </h5>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="ad-hom-box ad-hom-box-4">
+                    <span class="ad-hom-col-com ad-hom-col-4"><i class="fa fa-certificate"></i></span>
+                    <div class="ad-hom-view-com">
+                        <p style="margin-bottom:0px"> <small><i class="fa  fa-arrow-up up"></i> FAA </small>  </p>
+                        <h5 id="messagee">@Model.FAAUserCount </h5>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="ad-v2-hom-info-inn">
+        <ul>
+            <li>
+                <div class="ad-hom-box ad-hom-box-1">
+                    <span class="ad-hom-col-com ad-hom-col-1"><i class="fa fa-plane"></i></span>
+                    <div class="ad-hom-view-com">
+                        <p style="margin-bottom:0px"> <small><i class="fa  fa-arrow-up up"></i> Total Airports</small>  </p>
+                        <h5>@Model.TotalAirportCount </h5>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="ad-hom-box ad-hom-box-2">
+                    <span class="ad-hom-col-com ad-hom-col-2"><i class="fa fa-plane"></i></span>
+                    <div class="ad-hom-view-com">
+                        <p style="margin-bottom:0px"> <small><i class="fa  fa-arrow-up up"></i> Total Flights</small>  </p>
+                        <h5 id="noti">@Model.TotalFlightsCount </h5>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="ad-hom-box ad-hom-box-3">
+                    <span class="ad-hom-col-com ad-hom-col-3"><i class="fa fa-plane"></i></span>
+                    <div class="ad-hom-view-com">
+                        <p style="margin-bottom:0px"> <small><i class="fa  fa-arrow-up up"></i> Active Flights</small>  </p>
+                        <h5>@Model.ActiveFlightsCount </h5>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="ad-hom-box ad-hom-box-4">
+                    <span class="ad-hom-col-com ad-hom-col-4"><i class="fa fa-ticket"></i></span>
+                    <div class="ad-hom-view-com">
+                        <p style="margin-bottom:0px"> <small><i class="fa  fa-arrow-up up"></i> Total Bookings </small>  </p>
+                        <h5 id="messagee">@Model.TotalBookingCount </h5>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="sb2-2-3">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box-inn-sp">
+                <div class="inn-title">
+                    <h4>Paid Users</h4>
+
+                    <!-- Dropdown Structure -->
+
+                </div>
+                <div class="tab-inn">
+                    <div class="table-responsive table-desi">
+                        <div class="container">
+                            <div class="row">
+
+                                <table id="example" class="table table-bordered" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                              Full Name
+                                            </th>
+                                            <th>
+                                             Email
+                                            </th>                                           
+                                           
+                                            <th>
+                                              Active
+                                            </th>
+                                            
+                                            <th>Payment</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.PaidUsers)
+                                        {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.FirstName)  @Html.DisplayFor(modelItem => item.LastName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Email)
+                                            </td>
+
+                                            <td>
+                                                @if (item.Active == true)
+                                                {
+
+                                                    <span class="label label-success">Active</span>
+
+                                                }
+                                                else
+                                                {
+                                                    <span class="label label-danger">Inactive</span>
+
+                                                }
+
+                                            </td>
+
+                                            <td>
+                                                <span class="label label-success">Paid</span>
+                                            </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="sb2-2-3">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box-inn-sp">
+                <div class="inn-title">
+                    <h4>Unpaid Users</h4>
+
+                    <!-- Dropdown Structure -->
+
+                </div>
+                <div class="tab-inn">
+                    <div class="table-responsive table-desi">
+                        <div class="container">
+                            <div class="row">
+
+                                <table id="example2" class="table table-bordered" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Full Name
+                                            </th>
+                                            <th>
+                                                Email
+                                            </th>
+
+                                            <th>
+                                                Active
+                                            </th>
+
+                                            <th>Payment</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.UnPaidUsers)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.FirstName)  @Html.DisplayFor(modelItem => item.LastName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Email)
+                                                </td>
+
+                                                <td>
+                                                    @if (item.Active == true)
+                                                    {
+
+                                                        <span class="label label-success">Active</span>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="label label-danger">Inactive</span>
+
+                                                    }
+
+                                                </td>
+
+                                                <td>
+                                                    <span class="label label-danger"> Unpaid</span>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

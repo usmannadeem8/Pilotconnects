@@ -1,0 +1,147 @@
+﻿@model IEnumerable<Zealous.Models.DB.User>
+
+@{
+    ViewData["Title"] = "FAA";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+
+<style>
+    table {
+        width: 100%;
+    }
+
+    #example_filter {
+        float: right;
+    }
+
+    #example_paginate {
+        float: right;
+    }
+
+    label {
+        display: inline-flex;
+        margin-bottom: .5rem;
+        margin-top: .5rem;
+    }
+</style>
+
+<div class="sb2-2-2">
+    <ul>
+        <li>
+            <a href="#"><i class="fa fa-home" aria-hidden="true"></i> Home</a>
+        </li>
+        <li class="active-bre">
+            <a href="#"> All Users</a>
+        </li>
+    </ul>
+</div>
+<div class="sb2-2-3">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box-inn-sp">
+                <div class="inn-title">
+                    <h4>Check FAA Status</h4>
+
+                    <!-- Dropdown Structure -->
+
+                </div>
+                <div class="tab-inn">
+                    <div class="table-responsive table-desi">
+                        <div class="container">
+                            <div class="row">
+
+                                <table id="example" class="table table-bordered" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.FirstName)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.LastName)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Email)
+                                            </th>
+
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.PilotLicenseNumber)
+                                            </th>
+
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.PhoneNumber)
+                                            </th>
+
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Airport)
+                                            </th>
+                                            <th>
+                                                FAA Status
+                                            </th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.FirstName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.LastName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Email)
+                                            </td>
+
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PilotLicenseNumber)
+                                            </td>
+
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PhoneNumber)
+                                            </td>
+
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Airport.Airport)
+                                            </td>
+                                            <td>
+                                                @if (item.Faa == 0)
+                                                {
+                                                    <span class="label label-danger">Not Verified</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="label label-success">Verified</span>
+                                                }
+                                            </td>
+                                            <td>
+
+                                                @if (item.Faa == 0)
+                                                {
+                                                    <a asp-action="FaaApproved" asp-route-id="@item.Id"><i class=" fa fa-check bg-success" aria-hidden="true"> Verify</i></a>
+                                                }
+                                                else
+                                                {
+                                                    <a asp-action="FaaDisApproved" asp-route-id="@item.Id"><i class=" fa fa-close bg-danger" aria-hidden="true"> Dismiss</i></a>
+                                                }
+
+
+                                            </td>
+                                        </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

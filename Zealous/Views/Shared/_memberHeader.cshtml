@@ -1,0 +1,176 @@
+﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Mvc;
+@using System.Diagnostics;
+@using System.Linq;
+@using Zealous.Controllers;
+@using Zealous.Helper;
+@inject IHttpContextAccessor HttpContextAccessor;
+@{
+
+    var UserId = HttpContextAccessor.HttpContext.Session.GetString("UserId");
+    var FullName = HttpContextAccessor.HttpContext.Session.GetString("FullName");
+}
+
+<!--HEADER SECTION-->
+<section>
+    <!-- TOP BAR -->
+    <div class="ed-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="ed-com-t1-left">
+                        <ul>
+                            <li>
+                                <a href="#">Email: pilotconnects@gmail.com</a>
+                            </li>
+                            <li>
+                                <a href="#">Phone: 941-281-5941</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="ed-com-t1-right">
+                        @if (UserId != null)
+                        {
+                            <ul>
+                                <li>
+                                    <a href=" @Url.Action("MemberDashboard","Home")"> @FullName</a>
+                                </li>
+
+                                <li>
+                                    <a href=" @Url.Action("Logout","Home")">Logout</a>
+                                </li>
+                            </ul>
+                        }
+                        else
+                        {
+                            <ul>
+                                <li>
+                                    <a href=" @Url.Action("Login","Home")">Sign In</a>
+                                </li>
+                                <li>
+                                    <a href=" @Url.Action("Create","Users")">Sign Up</a>
+                                </li>
+                            </ul>
+                        }
+
+                    </div>
+                    <div class="ed-com-t1-social">
+                        <ul>
+                            <li>
+                                <a href="https://www.facebook.com/pilotconnects/?ref=bookmarks"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                            </li>
+                            @*<li>
+                                <a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
+                            </li>*@
+                            <li>
+                                <a href="https://www.instagram.com/pilotconnects/?igshid=1d06m6cnmu3du"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGO AND MENU SECTION -->
+    <div class="top-logo" data-spy="affix" data-offset-top="250">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="wed-logo">
+                        @if (UserId != null)
+                        {
+                            <a href="/Home/MemberDashboard">
+                                <img src="~/Admin/images/logo1.jpeg" alt="" />
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="/Home/Index">
+                                <img src="~/Admin/images/logo1.jpeg" alt="" />
+                            </a>
+                        }
+
+                    </div>
+                    <div class="main-menu" style="padding:10px">
+                        <ul>
+                            @if (UserId != null)
+                            {
+                                <li>
+                                    <a href="/Home/Index">Home</a>
+
+                                </li>
+
+                                <li>
+                                    <a href="/Users/UserProfile?userId=@Helper.Encrypt(UserId)">Profile</a>
+                                </li>
+                                <li>
+                                    <a href="/Chats/Index"> Messages</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a href="/Home/Index">Home</a>
+
+                                </li>
+
+                                <li>
+                                    <a href="/Home/Pricing">Pricing</a>
+                                </li>
+                            }
+
+                            <li>
+                                <a href="/Home/ContactUs">Contact Us</a>
+                            </li>
+                            <li>
+                                <a href="/Home/SearchUser">Connect With Pilots</a>
+                            </li>
+                            @if (UserId != null)
+                            {
+                                <li>
+                                    <a href="/Home/AllFlight">Search Flights</a>
+                                </li>
+                                <li>
+                                    <a href="/Home/GraphicalSearch">Flight Map View</a>
+                                </li>
+                            }
+                                <li>
+                                    <a href="https://www.youtube.com/watch?v=ilPNZUU__iY&feature=youtu.be">How It Works</a>
+                                </li>
+
+                            </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOP SEARCH BOX -->
+    <div class="search-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="search-form">
+                        @*<form class="tourz-search-form">
+                                <div class="input-field">
+                                    <input type="text" id="select-city" class="autocomplete">
+                                    <label for="select-city">Enter city</label>
+                                </div>
+                                <div class="input-field">
+                                    <input type="text" id="select-search" class="autocomplete">
+                                    <label for="select-search" class="search-hotel-type">Search over a million tour and travels, sight seeings, hotels and more</label>
+                                </div>
+                                <div class="input-field">
+                                    <input type="submit" value="search" class="waves-effect waves-light tourz-sear-btn">
+                                </div>
+                            </form>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END TOP SEARCH BOX -->
+</section>
+<!--END HEADER SECTION-->

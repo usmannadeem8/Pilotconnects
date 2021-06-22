@@ -1,0 +1,276 @@
+﻿@model Zealous.Models.DB.User
+
+@{
+    ViewData["Title"] = "Sign Up";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var AirportsList2 = (IEnumerable<string>)ViewBag.Airports2;
+}
+<style>
+    .modal-center {
+        display: table;
+        height: 100%;
+        width: 100%;
+    }
+
+    .modal-align-center {
+       
+        vertical-align: middle;
+    }
+
+    .modal-content {
+        height: inherit;
+        margin: 0 auto;
+    }
+</style>
+
+<section id="age">
+    <div class="tr-register">
+        <div class="tr-regi-form" style="padding-bottom:50px">
+            <h4 style="padding-top:50px">Are You 18+ ?</h4>
+            <p>You must be at least 18 years old to use this site.</p>
+            <br />
+            <br />
+            <button onclick="rataYes()" style="width:100px" class="btn btn-primary">Yes</button>
+            <button onclick="No()" style="width:100px;" class="btn btn-danger ">No</button>
+
+            <br />
+            <br />
+            <br />
+            <br />
+
+        </div>
+    </div>
+</section>
+<section id="rata" style="display:none" >
+    <div class="tr-register">
+        <div class="tr-regi-form" style="padding-bottom:50px">
+            <h4 style="padding-top:50px">Do You Agree?</h4>
+            <p>Do you agree not to use this platform to fly for hire or pay less than your pro rata share of the operating expenses of a flight?</p>
+            <br />
+            <br />
+            <button onclick="Yes()" style="width:100px" class="btn btn-primary">Yes</button>
+            <button onclick="No()" style="width:100px;" class="btn btn-danger ">No</button>
+
+            <br />
+            <br />
+            <br />
+            <br />
+
+        </div>
+    </div>
+</section>
+
+<section id="signup" style="display:none">
+    <div class="tr-register">
+        <div class="tr-regi-form">
+            <h4>Create an Account</h4>
+            <p>Network and fly!</p>
+            <form class="col s12" asp-action="Create">
+                <div class="row" id="requiredfields" style="display:none">
+                    <div class="input-field col s12">
+                        <div class="alert alert-danger">
+                            Please fill the empty fields.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col m6 s12">
+                        <input asp-for="FirstName" class="validate" required />
+                        <label>First Name*</label>
+                    </div>
+                    <div class="input-field col m6 s12">
+                        <input asp-for="LastName" class="validate" required />
+                        <label>Last Name*</label>
+                    </div>
+                </div>
+                <div class="row" id="EmailExist" style="display:none">
+                    <div class="input-field col s12">
+                        <div class="alert alert-danger">
+                            Email Already Exist.
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input asp-for="Email" onkeyup="Validate()" type="email" id="EmailId" class="validate" required />
+                        <label>Email*</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input asp-for="PhoneNumber" type="number" class="validate" required />
+                        <label>Phone Number*</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input asp-for="PilotLicenseNumber" class="validate" required />
+                        <label>Pilot License Number*</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input asp-for="Address" class="validate" required />
+                        <label>Address*</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <select class="form-control" onchange="getdepartureairport()" id="DepartureAirportState" required>
+                            <option value="" disabled selected>Select State*</option>
+                            @foreach (var item in AirportsList2)
+                            {
+                                <option style="background:white;border-color:white" value="@item">@item</option>
+                            }
+
+
+                        </select>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12" id="deptddl">
+
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12" id="Passworddiv">
+                        <input asp-for="Password" type="password" class="validate" required />
+                        <label>Password*</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12" id="ConfirmPassworddiv">
+                        <input asp-for="ConfirmPassword" type="password" required />
+                        <label>Confirm Password*</label>
+                    </div>
+                </div>
+                <div class="row" id="passwordmatcherror" style="display:none">
+                    <div class="input-field col s12">
+                        <div class="alert alert-danger">
+                            <strong>Mismatch!</strong> Passwords does not match.
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input type="submit" onclick=" return checkPassword()" style="background:#1aa5d8;border:0px" value="submit" class="btn btn-lg btn-info">
+                    </div>
+                </div>
+            </form>
+            <p>
+                Are you a already member ? <a href=" @Url.Action("Login","Home")">Click to Login</a>
+            </p>
+        </div>
+    </div>
+</section>
+
+
+
+<script>
+    var EmailAuthentication = 0;
+    function Validate() {
+        var email = $("#EmailId").val();
+        $.ajax({
+            url: "/Users/Authenticate?Email=" + email,
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+
+                if (data == 1) {
+                    $("#EmailExist").show();
+                    EmailAuthentication = 0;
+                    return false;
+                } else {
+                    EmailAuthentication = 1;
+                    $("#EmailExist").hide();
+                    return true;
+                }
+            },
+
+            error: function (e) {
+                location.reload();
+            }
+        });
+    }
+</script>
+<script>
+    function checkPassword() {
+        if ($("#FirstName").val() == "" || $("#LastName").val() == "" || $("#Email").val() == "" || $("#PilotLicenseNumber").val() == "" || $("#PhoneNumber").val() == "" || $("#AirportId").val() == 0 || $("#Password").val() == "" || $("#ConfirmPassword").val() == "") {
+            $("#passwordmatcherror").hide();
+            $("#requiredfields").show();
+            return false;
+        } else if (EmailAuthentication == 0) {
+            $("#EmailExist").show();
+            return false;
+        } else {
+
+        }
+
+        if ($("#Password").val() == $("#ConfirmPassword").val()) {
+            return true;
+        } else {
+            $("#passwordmatcherror").show();
+            $("#requiredfields").hide();
+            $("#Password").val('');
+            $("#ConfirmPassword").val('');
+            $("#ConfirmPassworddiv").css("border-bottom", "")
+            return false;
+        }
+    }
+
+
+    function getdepartureairport() {
+        var cid = $("#DepartureAirportState").val();
+        var html = "";
+        var params = { State: cid };
+        $.ajax({
+            url: "/Home/GetAirports",
+            type: "GET",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            //data: {"caseid": caseId, "minuteid": minId ,"title": title , "description": description},
+            data: params,
+            success: function (response) {
+                html = html + "  <select class='form-control selectpicker' data-show-subtext='true' data-live-search='true' name='AirportId'><option value=''> Select Airport</option >"
+
+                $.each(response, function (key, item) {
+                    html = html + "<option data-tokens=" + item.airport + " value=" + item.id + ">" + item.airport + " </option>";
+
+                });
+                html = html + "</select>";
+                $("#deptddl").empty();
+                $("#deptddl").html(html);
+                $("#deptddl").show();
+
+            },
+            error: function (response) {
+                //alert("Error:"+response);
+                console.log("Error:" + response.toString());
+            },
+            failure: function (response) {
+                console.log("Failure:" + response);
+            }
+        });
+    }
+
+
+    function Yes() {
+        $("#rata").hide();
+        $("#signup").show();
+    }
+    function rataYes() {
+        $("#age").hide();
+        $("#rata").show();
+    }
+
+    function No() {
+        window.location.href = "/Home/Index";
+    }
+</script>

@@ -1,0 +1,266 @@
+﻿@model Zealous.Models.ViewModel.HomeViewModel
+@using Zealous.Helper;
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Mvc;
+@inject IHttpContextAccessor HttpContextAccessor;
+@{
+    ViewData["Title"] = "Edit Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var UserId = HttpContextAccessor.HttpContext.Session.GetString("UserId");
+    var FullName = HttpContextAccessor.HttpContext.Session.GetString("FullName");
+    var Dp = HttpContextAccessor.HttpContext.Session.GetString("Dp");
+    var AirportsList2 = (IEnumerable<string>)ViewBag.Airports2;
+}
+
+<section>
+    <div class="db">
+        <!--LEFT SECTION-->
+        <div class="db-l">
+            <div class="db-l-1 center-block" style="border-radius:150px;width:80%;height:80%">
+                <ul class="center-align">
+                    @if (Dp != null)
+                    {
+                        <li style="align-content:center">
+                            <img class="center-align" src="~/@Dp" id="dp" alt="">
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <img src="~/Admin/images/placeholder.jpg" id="dp2" alt="">
+                        </li>
+                    }
+
+
+                </ul>
+            </div>
+            <div class="db-1-1 center-block center-align center" >
+                <form asp-controller="Home" class=" center-align" style="width:100%" asp-action="UploadFile" method="post"
+                      enctype="multipart/form-data">
+                    <div class="row  db-file-upload " style=" padding-bottom:20px;padding-top:20px" id="fileuploaddiv">
+                        <div class="file-field input-field">
+                            <div class="db-up-btn" style="width:90%;margin-left:17px">
+                                <span style="padding-top:0px"><i class="fa fa-camera"></i> Change Profile Picture</span>
+                                <input class="btn btn-sm" style="width:100%" id="imagefile" type="file" accept="image/x-png,image/jpeg" multiple name="files">
+                            </div>
+                            <div class="file-path-wrapper">
+                                <input class="file-path validate" id="image" onchange="displaySave()" type="text" placeholder="Upload Blog Banner" hidden>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="display:none; padding-bottom:20px;padding-top:20px" id="savediv">
+                        <div class="row">
+                            <div class="col-md-6" style="padding:2px">
+
+                                <input class="btn btn-lg pull-right btn-success" value="Save" type="submit">
+                            </div>
+                            <div class="col-md-6" style="padding:2px">
+
+                                <input class="btn btn-lg pull-left btn-danger" onclick="Can()" value="Cancel" type="button">
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            
+            <div class="db-l-2 s12">
+                <ul>
+                    <li class="bg-primary">
+                        <a style="color:white; text-align:center" href="/Home/PilotDashboard"><img src="images/icon/dbl1.png" alt="" /><i class="fa fa-plane"></i> Switch To Pilot</a>
+                    </li>
+                    <li>
+
+                    </li>
+                    <li>
+                        <a href="/Home/MemberDashboard"><i class="fa fa-bar-chart"></i> Dashboard</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/Chats/Index"><i class="fa fa-envelope"></i> Messages</a>
+                    </li>
+                    <li>
+                        <a href="/Home/AllFlight"><i class="fa fa-search"></i> Search Flights</a>
+                    </li>
+
+                    <li>
+                        <a href="/Home/ContactUs"><i class="fa fa-phone"></i> Contact Us</a>
+                    </li>
+                    <li>
+                        <a href="/Users/CompleteProfile"><i class="fa fa-user"></i> Edit Profile</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+        <!--CENTER SECTION-->
+        <div class="db-2">
+            <div class="db-2-com db-2-main">
+                <h4>Edit My Profile </h4>
+                <div class="db-2-main-com db2-form-pay db2-form-com">
+                    <form class="col s12" asp-action="UpdateProfile" asp-controller="Users">
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="pay-ca" name="FirstName" value="@Model.User.FirstName" type="text" class="validate">
+                                <label for="pay-ca">First Name</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="pay-ca" name="LastName" value="@Model.User.LastName" type="text" class="validate">
+                                <label for="pay-ca">Last Name</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="pay-ca" name="PilotLicenseNumber" value="@Model.User.PilotLicenseNumber" type="text" class="validate">
+                                <label for="pay-ca">Pilot License Number</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="pay-ca" name="Address" value="@Model.User.Address" type="text" class="validate">
+                                <label for="pay-ca">Address</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <select class="form-control" onchange="getdepartureairport()" id="DepartureAirportState">
+                                    <option value="" disabled selected>Select State*</option>
+                                    @foreach (var item in AirportsList2)
+                                    {
+                                        <option style="background:white;border-color:white" value="@item">@item</option>
+                                    }
+
+
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12" id="deptddl">
+                                <input type="text" value="@Model.User.Airport.Airport" disabled />
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <select class="form-control" style="background-color:white" name="CertificateType">
+                                    @if (Model.User.CertificateType == null)
+                                    {
+                                        <option value="" disabled selected>Select Status</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@Model.User.CertificateType" selected>@Model.User.CertificateType</option>
+                                    }
+                                    <option value="Student Pilot">Student Pilot</option>
+                                    <option value="Sport Pilot">Sport Pilot</option>
+                                    <option value="Recreational Pilot">Recreational Pilot</option>
+                                    <option value="Private Pilot">Private Pilot</option>
+                                    <option value="Commercial Pilot">Commercial Pilot (CPL)</option>
+                                    <option value="Airline Transport Pilot">Airline Transport Pilot (ATP)</option>
+                                    <option value="Flight Instructor Certificates">Flight Instructor Certificates</option>
+                                    <option value="Ground Instructor Certificates">Ground Instructor Certificates</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="pay-ca" name="PilotRating" value="@Model.User.PilotRating" type="text" class="validate">
+                                <label for="pay-ca"> Rating</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <textarea style="margin: 0px; width:100%; height: 148px; background-color:white" name="AboutMe" placeholder="About Me">@Model.User.AboutMe</textarea>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class=" col s12">
+                                <textarea style="margin: 0px; width:100%; height: 148px; background-color:white" name="CareerGoals" placeholder="Career Goals">@Model.User.CareerGoals</textarea>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input type="submit" value="SUBMIT" style="background:#f87373" class="form-control btn btn-lg btn-primary">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--RIGHT SECTION-->
+        <div class="db-3">
+            <h4>Trending Flights</h4>
+            <ul>
+                @foreach (var item in Model.Flights)
+                {
+                    <li>
+                        <a href="@Url.Action("BookNow","Flights",new {EFID=Helper.Encrypt(item.Id.ToString()) })">
+                            <img src="~/images/package/1.jpg" alt="">
+                            <h5>@item.FlightTo</h5>
+                            <p>Cost Of Flight: $@item.CostOfFlight</p>
+                        </a>
+                    </li>
+                }
+
+            </ul>
+        </div>
+    </div>
+</section>
+<script>
+    function displaySave() {
+        $("#savediv").show();
+        $("#fileuploaddiv").hide();
+        
+        $("#dp").fadeIn("fast").attr('src', URL.createObjectURL(event.target.files[0]));
+        $("#dp2").fadeIn("fast").attr('src', URL.createObjectURL(event.target.files[0]));
+
+
+    }
+    function Can() {
+        location.reload(true);
+    }
+
+
+    function getdepartureairport() {
+        var cid = $("#DepartureAirportState").val();
+        var html = "";
+        var params = { State: cid };
+        $.ajax({
+            url: "/Home/GetAirports",
+            type: "GET",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            //data: {"caseid": caseId, "minuteid": minId ,"title": title , "description": description},
+            data: params,
+            success: function (response) {
+                html = html + "  <select class='form-control selectpicker' data-show-subtext='true' data-live-search='true' name='AirportId'><option value=''> Select Airport</option >"
+
+                $.each(response, function (key, item) {
+                    html = html + "<option data-tokens=" + item.airport + " value=" + item.id + ">" + item.airport + " </option>";
+
+                });
+                html = html + "</select>";
+                $("#deptddl").empty();
+                $("#deptddl").html(html);
+                $("#deptddl").show();
+
+            },
+            error: function (response) {
+                //alert("Error:"+response);
+                console.log("Error:" + response.toString());
+            },
+            failure: function (response) {
+                console.log("Failure:" + response);
+            }
+        });
+    } 
+
+</script>

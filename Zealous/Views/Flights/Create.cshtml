@@ -1,0 +1,202 @@
+﻿@model Zealous.Models.DB.Flight
+
+@{
+    ViewData["Title"] = "Post Flight";
+    Layout = "~/Views/Shared/_PilotLayout.cshtml";
+    var AirportsList2 = (IEnumerable<string>)ViewBag.Airports2;
+}
+
+
+
+
+
+
+
+<div class="sb2-2-2">
+    <ul>
+        <li>
+            <a href="index.html"><i class="fa fa-home" aria-hidden="true"></i> Home</a>
+        </li>
+        <li class="active-bre">
+            <a href="#"> Post A New Flight</a>
+        </li>
+        <li class="page-back">
+            <a href="/Home/PilotDashboard"><i class="fa fa-backward" aria-hidden="true"></i> Back</a>
+        </li>
+    </ul>
+</div>
+<div class="sb2-2-add-blog sb2-2-1">
+    <div class="box-inn-sp">
+        <div class="inn-title">
+            <h4>Post A New Flight</h4>
+        </div>
+        <div class="bor">
+            <form asp-action="Create">
+                <div class="row">
+
+                    <div class="input-field col m6 s12">
+                        <input asp-for="FlightTo" class="validate" required />
+                        <label>Flight To*</label>
+                    </div>
+
+                    <div class="input-field col m6 s12">
+                        <input asp-for="Plane" class="validate" required />
+                        <label>Plane*</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col m6 s12">
+                        <select class="form-control" onchange="getdepartureairport()" data-show-subtext="true" data-live-search="true" id="DepartureAirportState">
+                            <option style="background:white;border-color:white" value="" disabled selected>Select Departure State*</option>
+                            @foreach (var item in AirportsList2)
+                            {
+                                <option style="background:white;border-color:white" value="@item">@item</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="input-field col m6 s12" id="deptddl">
+
+                    </div>
+                    <div class="input-field col m6 s12">
+                        <select class="form-control" onchange="getdestinationairport()" data-show-subtext="true" data-live-search="true" id="DestinationAirportState">
+                            <option style="background:white;border-color:white" value="" disabled selected>Select Destination State*</option>
+                            @foreach (var item in AirportsList2)
+                            {
+                                <option style="background:white;border-color:white" value="@item">@item</option>
+                            }
+                        </select>
+
+                    </div>
+                    <div class="input-field col m6 s12" id="deptddl2">
+
+                    </div>
+                </div>
+               
+                <div class="row">
+                    <div class="input-field col m6 s12">
+                        <input asp-for="CostOfFlight" type="number" class="validate" required />
+                        <label>Cost Of Flight*</label>
+                    </div>
+                    <div class="input-field col m6 s12">
+                        <input asp-for="UsuableWeightAvailable" class="validate" required />
+                        <label>Usuable Weight Available*</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col m4 s12">
+                        <input id="list-title" asp-for="NumberOfLeftSeats" type="number" value="0" required class="validate">
+                        <label for="list-title">Number Of Left Seats</label>
+
+                    </div>
+                    <div class="input-field col m4 s12">
+                        <input id="list-long" asp-for="NumberOfRightSeats" type="number" value="0" required class="validate">
+                        <label for="list-long">Number Of Right Seats</label>
+                    </div>
+                    <div class="input-field col m4 s12">
+                        <input id="list-lat" asp-for="NumberOfRearSeats" type="number" value="0" required class="validate">
+                        <label for="list-lat">Number Of Rear Seats</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class=" col s3">
+                        <label>Date And Time Of Flight</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col m6 s12">
+
+                        <input asp-for="DateOfFlight" type="datetime-local" class="validate" required />
+
+                    </div>
+                    <div class="input-field col m6 s12">
+                      
+                        <select class="form-control" name="FlightType">
+                            <option style="background:white;border-color:white" value="" disabled selected>Select Flight Type*</option>
+
+                            <option style="background:white;border-color:white" value="One Way">One Way</option>
+                            <option style="background:white;border-color:white" value="Round Trip">Round Trip</option>
+                            <option style="background:white;border-color:white" value="Day Trip">Day Trip</option>
+                            <option style="background:white;border-color:white" value="Overnight">Overnight</option>
+
+                        </select>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input type="submit" class="waves-effect waves-light btn-large" value="Submit">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+
+    function getdepartureairport() {
+        var cid = $("#DepartureAirportState").val();
+        var html = "";
+        var params = { State: cid };
+        $.ajax({
+            url: "/Home/GetAirports",
+            type: "GET",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            //data: {"caseid": caseId, "minuteid": minId ,"title": title , "description": description},
+            data: params,
+            success: function (response) {
+                html = html + "  <select class='form-control selectpicker' data-show-subtext='true' data-live-search='true' name='DepartureAirport'><option value='' > Select Departure Airport*</option>"
+
+                $.each(response, function (key, item) {
+                    html = html + "<option data-tokens=" + item.airport + " value=" + item.id + ">" + item.airport + " </option>";
+
+                });
+                html = html + "</select>";
+                $("#deptddl").empty();
+                $("#deptddl").html(html);
+                $("#deptddl").show();
+
+            },
+            error: function (response) {
+                //alert("Error:"+response);
+                console.log("Error:" + response.toString());
+            },
+            failure: function (response) {
+                console.log("Failure:" + response);
+            }
+        });
+    }
+    function getdestinationairport() {
+        var cid = $("#DestinationAirportState").val();
+        var html = "";
+        var params = { State: cid };
+        $.ajax({
+            url: "/Home/GetAirports",
+            type: "GET",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            //data: {"caseid": caseId, "minuteid": minId ,"title": title , "description": description},
+            data: params,
+            success: function (response) {
+                html = html + "  <select class='form-control selectpicker' data-show-subtext='true' data-live-search='true' name='DestinationAirport'><option value='' > Select Destination Airport</option>"
+
+                $.each(response, function (key, item) {
+                    html = html + "<option value=" + item.id + ">" + item.airport + " </option>";
+
+                });
+                html = html + "</select>";
+                $("#deptddl2").empty();
+                $("#deptddl2").html(html);
+                $("#deptddl2").show();
+
+            },
+            error: function (response) {
+                //alert("Error:"+response);
+                console.log("Error:" + response.toString());
+            },
+            failure: function (response) {
+                console.log("Failure:" + response);
+            }
+        });
+    }
+</script>

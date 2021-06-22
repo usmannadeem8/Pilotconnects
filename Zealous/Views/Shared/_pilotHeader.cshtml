@@ -1,0 +1,133 @@
+﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Mvc;
+@using System.Diagnostics;
+@using System.Linq;
+@using Zealous.Helper;
+@inject IHttpContextAccessor HttpContextAccessor;
+
+@{
+    var UserId = HttpContextAccessor.HttpContext.Session.GetString("UserId");
+    var FullName = HttpContextAccessor.HttpContext.Session.GetString("FullName");
+    var Dp = HttpContextAccessor.HttpContext.Session.GetString("Dp");
+}
+
+
+
+
+<div class="sb2-1">
+    <!--== USER INFO ==-->
+    <div class="sb2-12">
+        <ul>
+            @if (Dp != null)
+            {
+                <li>
+                    <img src="~/@Dp" id="dp" alt="">
+                </li>
+            }
+            else
+            {
+                <li>
+                    <img src="~/Admin/placeholder.jpg" id="dp2" alt="">
+                </li>
+            }
+
+            @if (Helper.CheckFAA(UserId) == 1)
+            {
+                <li>
+                    @*<form asp-controller="Home" asp-action="UploadFile" method="post"
+                          enctype="multipart/form-data">
+
+                        <div class="input-field col s12" id="fileuploaddiv">
+                            <div class="file-field">
+                                <div class="btn"style="padding-bottom:10px;padding-top:0px">
+                                    <span ><i class="fa fa-camera"></i> Profile Picture</span>
+                                    <input class="btn btn-sm" id="imagefile" type="file" multiple name="files">
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input class="file-path validate" id="image" onchange="displaySave()" type="text" placeholder="Upload Blog Banner" hidden>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="input-field col s12" style="display:none" id="savediv">
+                            <div class="row">
+                                <div class="col-md-6" style="padding:2px">
+
+                                    <input class="btn btn-lg pull-right" value="Save" type="submit">
+                                </div>
+                                <div class="col-md-6" style="padding:2px">
+
+                                    <input class="btn btn-lg pull-left btn-danger" onclick="Can()" value="Cancel" type="button">
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>*@
+                    <img  src="~/images/approved.png" style="height:30px;width:30px; border:hidden; box-shadow:none"><span style="color:black" class="text-darken-1"> @FullName</span>
+                </li>
+            }
+            else
+            {
+                <li>
+                    <span style="color:black" class="text-darken-1"> @FullName</span>
+                </li>
+            }
+
+
+        </ul>
+    </div>
+    <!--== LEFT MENU ==-->
+    <div class="sb2-13">
+        <ul class="collapsible" data-collapsible="accordion">
+            <li>
+                <a href="/Home/PilotDashboard"><i class="fa fa-bar-chart" aria-hidden="true"></i> Dashboard</a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-plane" aria-hidden="true"></i> Flights</a>
+                <div class="collapsible-body left-sub-menu">
+                    <ul>
+                        <li>
+                            <a href=" @Url.Action("Index","Flights")">My Flights</a>
+                        </li>
+                        <li>
+                            <a href=" @Url.Action("InactiveFlights","Flights")">Inactive Flights</a>
+                        </li>
+                        <li>
+                            <a href=" @Url.Action("Create","Flights")">Post Flight</a>
+                        </li>
+                    </ul>
+                </div>
+
+
+            </li>
+            <li>
+                <a href=" @Url.Action("Index","Notifications")" class="collapsible-header"><i class="fa fa-bell" aria-hidden="true"></i> Pending Requests</a>
+            </li>
+            <li>
+                <a href=" @Url.Action("BookingFlights","Bookings")" class="collapsible-header"><i class="fa fa-ticket" aria-hidden="true"></i>Bookings</a>
+            </li>
+            <li>
+                <a href=" @Url.Action("MemberDashboard","Home")" class="collapsible-header"><i class="fa fa-exchange" aria-hidden="true"></i> Switch To Passenger</a>
+            </li>
+            <li>
+                <a href="/Home/Logout" class="collapsible-header"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
+
+            </li>
+
+        </ul>
+    </div>
+</div>
+<script>
+    function displaySave() {
+        $("#fileuploaddiv").hide();
+        $("#savediv").show();
+        $("#dp").fadeIn("fast").attr('src', URL.createObjectURL(event.target.files[0]));
+        $("#dp2").fadeIn("fast").attr('src', URL.createObjectURL(event.target.files[0]));
+
+        
+    }
+    function Can() {
+        location.reload(true);
+    }
+</script>
+
