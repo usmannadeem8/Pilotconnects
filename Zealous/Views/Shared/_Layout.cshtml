@@ -16,19 +16,21 @@
     </environment>
     <!-- GOOGLE FONTS -->
     <link href="https://fonts.googleapis.com/css?family=Poppins%7CQuicksand:400,500,700" rel="stylesheet">
+    <link href="~/css/style.css" rel="stylesheet" />
     <link href="~/css/animate.css" rel="stylesheet" />
     <link href="~/css/bootstrap.css" rel="stylesheet" />
     <link href="~/css/font-awesome.min.css" rel="stylesheet" />
     <link href="~/css/materialize.css" rel="stylesheet" />
     <link href="~/css/mob.css" rel="stylesheet" />
     <link href="~/css/radio.css" rel="stylesheet" />
-    <link href="~/css/style.css" rel="stylesheet" />
+
     <link src="~/images/fav.ico" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/css/bootstrap-select.min.css" />
+
 </head>
 <body>
     <partial name="_memberHeader" />
@@ -37,7 +39,7 @@
 
     @RenderBody()
     <footer>
-        <p style="margin:20px" class="pull-right"><a href="/Home/TermsAndConditions" style="margin:20px">Terms And Conditions</a> <a href="/Home/PrivacyPolicy" style="margin:20px">Privacy Policy</a> <a style="margin:20px;margin-right:400px"></a> &copy; 2020 - Pilot Connects Created by Zealous Aviation</p>
+        <p class="col s12" style="margin:20px" class="pull-right"><a class="col s12" href="/Home/TermsAndConditions" style="margin:20px">Terms And Conditions</a> <a class="col s12" href="/Home/PrivacyPolicy" style="margin:20px">Privacy Policy</a> <a style="margin:20px;margin-right:400px"></a> &copy; 2020 - Pilot Connects Created by Zealous Aviation</p>
     </footer>
 
 
@@ -51,20 +53,18 @@
                 asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
                 asp-fallback-test="window.jQuery"
                 crossorigin="anonymous"
-                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
-        </script>
+                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
                 crossorigin="anonymous"
-                integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd">
-        </script>
+                integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"></script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
 
 
     <script src="~/js/bootstrap.js"></script>
-    <script src="~/js/custom.js"></script>
+
     <script src="~/js/html5shiv.js"></script>
     <script src="~/js/jquery-latest.min.js"></script>
     <script src="~/js/jquery-ui.js"></script>
@@ -77,6 +77,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
+    <script src="~/js/custom.js"></script>
 
 
     @RenderSection("Scripts", required: false)
