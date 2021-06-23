@@ -461,11 +461,11 @@
      .carousel-caption {
          padding-bottom: 15% !important;
     }
-     .bg-none {
+    .bg-none {
         /* background: inherit;
          */
-         padding: 30px 15px;
-         background: url(../images/list-p-bg.jpg) no-repeat center center;
+        padding: 30px 15px;
+        /*background: url(../images/list-p-bg.jpg) no-repeat center center;*/
          background-size: cover;
     }
      .tips_left_1, .tips_left_2, .tips_left_3 {
@@ -565,215 +565,250 @@
     }
 }
 /*-------------------------------------------------------*/
-/* When the browser is 767px or wider,below css will be applied. 
+        /* When the browser is 767px or wider,below css will be applied. 
 /*-------------------------------------------------------*/
- @media screen and (min-width: 767px) {
-     .dropdown:hover .dropdown-menu {
-         display: block;
-         margin-top: 0;
-    }
-     .help-line {
-         background: url('../images/home_left.jpg') no-repeat #ffc107;
-         background-size: cover;
-         padding: 20px 0px 32px 0px;
-         position: relative;
-         overflow: hidden;
-    }
-     .help-line::before {
-         position: absolute;
-         background: rgba(0, 188, 212, 0.75);
-         content: '';
-         top: 0px;
-         bottom: 0px;
-         width: 100%;
-         height: 100%;
-    }
-     .home_consul {
-         width: 100%;
-         text-align: center;
-    }
-     .home_consul a {
-         display: initial;
-    }
-}
+        @media screen and (min-width: 767px) {
+            .dropdown:hover .dropdown-menu {
+                display: block;
+                margin-top: 0;
+            }
+
+            .help-line {
+                background: url('../images/home_left.jpg') no-repeat #ffc107;
+                background-size: cover;
+                padding: 20px 0px 32px 0px;
+                position: relative;
+                overflow: hidden;
+            }
+
+                .help-line::before {
+                    position: absolute;
+                    background: rgba(0, 188, 212, 0.75);
+                    content: '';
+                    top: 0px;
+                    bottom: 0px;
+                    width: 100%;
+                    height: 100%;
+                }
+
+            .home_consul {
+                width: 100%;
+                text-align: center;
+            }
+
+                .home_consul a {
+                    display: initial;
+                }
+        }
+        /*-------------------------------------------------------*/
+        /* When the browser is between 0px and 481px wide,below css will be applied. 
 /*-------------------------------------------------------*/
-/* When the browser is between 0px and 481px wide,below css will be applied. 
+        @media screen and (max-width: 480px) {
+            body {
+                overflow-x: hidden !important;
+            }
+
+            .arrange ul li {
+                width: 98% !important;
+            }
+
+            .banner_book_1 ul li {
+                width: 100%;
+            }
+
+            .dl1 {
+                display: none !important;
+            }
+
+            .mob_logo {
+                width: 80%;
+            }
+
+            .events table tr td:nth-child(2) {
+                width: 180px;
+            }
+
+            .events table tr th {
+                font-size: 16px;
+            }
+
+            #myTable th, #myTable td {
+                padding: 0px 5px;
+            }
+
+            .to-con-2 {
+                font-size: 20px;
+            }
+
+            .hot-ameni ul li {
+                width: 100%;
+            }
+
+            .dir-rat-form input[type="submit"] {
+                width: 100%;
+            }
+
+            .tourz-hom-ser ul li {
+                width: 50%;
+                margin-bottom: 10px;
+            }
+
+                .tourz-hom-ser ul li a {
+                    width: 100%;
+                    height: 100%;
+                }
+
+            .db-pay-amount {
+                display: none;
+            }
+
+            .db-pay-card {
+                display: none;
+            }
+
+            .db2-form-com form {
+                padding: 0px;
+                background: none;
+                margin-top: 0px;
+            }
+
+            .tr-regi-form {
+                width: 90%;
+                padding: 30px 25px 30px 25px;
+                margin-top: 100px;
+            }
+        }
+        /*-------------------------------------------------------*/
+        /* When the browser is between 0px and 1030px wide,below css will be applied. 
 /*-------------------------------------------------------*/
- @media screen and (max-width: 480px) {
-     body {
-         overflow-x: hidden !important;
-    }
-     .arrange ul li {
-         width: 98% !important;
-    }
-     .banner_book_1 ul li {
-         width: 100%;
-    }
-     .dl1 {
-         display: none !important;
-    }
-     .mob_logo {
-         width: 80%;
-    }
-     .events table tr td:nth-child(2) {
-         width: 180px;
-    }
-     .events table tr th {
-         font-size: 16px;
-    }
-     #myTable th, #myTable td {
-         padding: 0px 5px;
-    }
-     .to-con-2 {
-         font-size: 20px;
-    }
-     .hot-ameni ul li {
-         width: 100%;
-    }
-     .dir-rat-form input[type="submit"] {
-         width: 100%;
-    }
-     .tourz-hom-ser ul li {
-         width: 50%;
-         margin-bottom: 10px;
-    }
-     .tourz-hom-ser ul li a {
-         width: 100%;
-         height: 100%;
-    }
-     .db-pay-amount {
-         display: none;
-    }
-     .db-pay-card {
-         display: none;
-    }
-     .db2-form-com form {
-         padding: 0px;
-         background: none;
-         margin-top: 0px;
-    }
-     .tr-regi-form {
-         width: 90%;
-         padding: 30px 25px 30px 25px;
-         margin-top: 100px;
-    }
-}
+        @media screen and (max-width: 1148px) {
+            .menu_book {
+                float: initial;
+                position: relative;
+                overflow: hidden;
+                padding: 10px 0px;
+                display: block;
+                width: 50%;
+                margin: 0 auto;
+            }
+
+                .menu_book a {
+                    background: #FFC107;
+                    font-weight: 700;
+                    font-style: italic;
+                    text-decoration: none !important;
+                    color: #000 !important;
+                    padding: 6px;
+                    border-radius: 3px;
+                    display: block;
+                    text-align: center;
+                }
+
+            .navbar-nav {
+                float: initial;
+                margin: 0 auto;
+                display: table;
+            }
+
+            .carousel-inner > .item > img {
+                display: none;
+            }
+
+            .carousel-caption {
+                width: 100%;
+                padding-bottom: 7%;
+            }
+
+            .carousel-inner1 > .item > img {
+                display: block;
+            }
+        }
+        /*-------------------------------------------------------*/
+        /* When the browser is 992px or wider,below css will be applied. 
 /*-------------------------------------------------------*/
-/* When the browser is between 0px and 1030px wide,below css will be applied. 
+        @media screen and (min-width: 992px) {
+            .help-line {
+                background: url('../images/home_left.jpg') no-repeat #ffc107;
+                background-size: 50%;
+                position: relative;
+                overflow: hidden;
+                padding: 20px 0px 32px 0px;
+            }
+
+                .help-line::before {
+                    position: absolute;
+                    background: rgba(0, 188, 212, 0.75);
+                    content: '';
+                    top: 0px;
+                    bottom: 0px;
+                    width: 100%;
+                    height: 100%;
+                }
+
+            .home_consul {
+                width: 45%;
+                text-align: left;
+            }
+
+                .home_consul a {
+                    display: initial;
+                }
+        }
+        /*-------------------------------------------------------*/
+        /* When the browser is between 767px and 992px wide,below css will be applied. 
 /*-------------------------------------------------------*/
- @media screen and (max-width: 1148px) {
-     .menu_book {
-         float: initial;
-         position: relative;
-         overflow: hidden;
-         padding: 10px 0px;
-         display: block;
-         width: 50%;
-         margin: 0 auto;
-    }
-     .menu_book a {
-         background: #FFC107;
-         font-weight: 700;
-         font-style: italic;
-         text-decoration: none !important;
-         color: #000 !important;
-         padding: 6px;
-         border-radius: 3px;
-         display: block;
-         text-align: center;
-    }
-     .navbar-nav {
-         float: initial;
-         margin: 0 auto;
-         display: table;
-    }
-     .carousel-inner > .item > img {
-         display: none;
-    }
-     .carousel-caption {
-         width: 100%;
-         padding-bottom: 7%;
-    }
-     .carousel-inner1 > .item > img {
-         display: block;
-    }
-}
-/*-------------------------------------------------------*/
-/* When the browser is 992px or wider,below css will be applied. 
-/*-------------------------------------------------------*/
- @media screen and (min-width: 992px) {
-     .help-line {
-         background: url('../images/home_left.jpg') no-repeat #ffc107;
-         background-size: 50%;
-         position: relative;
-         overflow: hidden;
-         padding: 20px 0px 32px 0px;
-    }
-     .help-line::before {
-         position: absolute;
-         background: rgba(0, 188, 212, 0.75);
-         content: '';
-         top: 0px;
-         bottom: 0px;
-         width: 100%;
-         height: 100%;
-    }
-     .home_consul {
-         width: 45%;
-         text-align: left;
-    }
-     .home_consul a {
-         display: initial;
-    }
-}
-/*-------------------------------------------------------*/
-/* When the browser is between 767px and 992px wide,below css will be applied. 
-/*-------------------------------------------------------*/
- @media screen and (min-width: 767px) and (max-width: 992px) {
-     .navbar-nav {
-         float: initial;
-         margin: 0 auto;
-         display: table;
-    }
-     .nav > li > a {
-         font-size: 14px;
-         padding: 10px 7px;
-    }
-     .container {
-        /*width: 100%;
+        @media screen and (min-width: 767px) and (max-width: 992px) {
+            .navbar-nav {
+                float: initial;
+                margin: 0 auto;
+                display: table;
+            }
+
+            .nav > li > a {
+                font-size: 14px;
+                padding: 10px 7px;
+            }
+
+            .container {
+                /*width: 100%;
         */
-    }
-     .banner_book_1 ul li {
-         width: 32%;
-    }
-     .dl1 {
-    }
-     .dl2 {
-    }
-     .dl3 {
-         display: none !important;
-    }
-     .dl4 {
-    }
-}
+            }
+
+            .banner_book_1 ul li {
+                width: 32%;
+            }
+
+            .dl1 {
+            }
+
+            .dl2 {
+            }
+
+            .dl3 {
+                display: none !important;
+            }
+
+            .dl4 {
+            }
+        }
+        /*-------------------------------------------------------*/
+        /* When the browser is 992px or wider,below css will be applied. 
 /*-------------------------------------------------------*/
-/* When the browser is 992px or wider,below css will be applied. 
+        @media screen and (min-width: 992px) {
+            .nav > li > a {
+                font-size: 15px;
+            }
+        }
+        /*-------------------------------------------------------*/
+        /* When the browser is between 0px and 1130px wide,below css will be applied. 
 /*-------------------------------------------------------*/
- @media screen and (min-width: 992px) {
-     .nav > li > a {
-         font-size: 15px;
-    }
-}
+        @media screen and (max-width: 1130px) {
+            .ticket ul li {
+                margin-bottom: 5px;
+            }
+        }
+        /*-------------------------------------------------------*/
+        /* When the browser is between 0px and 1180px wide,below css will be applied. 
 /*-------------------------------------------------------*/
-/* When the browser is between 0px and 1130px wide,below css will be applied. 
-/*-------------------------------------------------------*/
- @media screen and (max-width: 1130px) {
-     .ticket ul li {
-         margin-bottom: 5px;
-    }
-}
-/*-------------------------------------------------------*/
-/* When the browser is between 0px and 1180px wide,below css will be applied. 
-/*-------------------------------------------------------*/
- @media screen and (max-width: 1180px) {
-}
+        @media screen and (max-width: 1180px) {
+        }
