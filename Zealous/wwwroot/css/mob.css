@@ -465,7 +465,7 @@
         /* background: inherit;
          */
          padding: 30px 15px;
-         background: url(../images/list-p-bg.jpg) no-repeat center center;
+         /*background: url(../images/list-p-bg.jpg) no-repeat center center;*/
          background-size: cover;
     }
      .tips_left_1, .tips_left_2, .tips_left_3 {

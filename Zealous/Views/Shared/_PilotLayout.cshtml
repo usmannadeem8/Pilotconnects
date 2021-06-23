@@ -28,11 +28,13 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
 
     </environment>
-    <link href="~/Admin/css/bootstrap.css" rel="stylesheet" />
+
+    <link href="~/Admin/css/style.css" rel="stylesheet" />
     <link href="~/Admin/css/font-awesome.min.css" rel="stylesheet" />
     <link href="~/Admin/css/materialize.css" rel="stylesheet" />
     <link href="~/Admin/css/mob.css" rel="stylesheet" />
-    <link href="~/Admin/css/style.css" rel="stylesheet" />
+    <link href="~/Admin/css/bootstrap.css" rel="stylesheet" />
+
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/css/bootstrap-select.min.css" />
 </head>
@@ -60,8 +62,8 @@
                 </div>
             </div>
             <!--== MY ACCCOUNT ==-->
-            <div class="col-md-2 col-sm-3 col-xs-6">
-                <!-- Dropdown Trigger -->
+            @*<div class="d-sm-none">
+
                 <a class='waves-effect dropdown-button top-user-pro' href='#' data-activates='top-menu'>
                     @if (Dp != null)
                     {
@@ -76,7 +78,7 @@
 
                     } <span>@FullName</span><i class="fa fa-angle-down" aria-hidden="true"></i>
                 </a>
-            </div>
+            </div>*@
         </div>
     </div>
     <div class="container-fluid sb2">
