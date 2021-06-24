@@ -178,7 +178,7 @@
                                                     <li class="col-md-1"><img src="~/images/approved.png" style="height:20px;width:20px"><span>FAA</span></li>
                                                 }
                                                 @*<li><i class="fa fa-plane"></i><br /> <span>Plane: @item.Plane</span></li>*@
-                                                <li class="col-md-2"><i class="fa fa-plane"></i><br /> <span> @item.FlightType</span></li>
+                                                <li style="height:60px" class="col-md-2"><i class="fa fa-plane"></i><br /> <span> @item.FlightType</span></li>
                                                 <li class="col-md-2"><img src="~/images/icon/fs.png" alt=""> <span>Total Seats: @{var seat = item.NumberOfLeftSeats + item.NumberOfRightSeats + item.NumberOfRearSeats;} @seat</span></li>
                                                 <li class="col-md-2"><img src="~/images/icon/a17.png" alt=""> <span> @item.UsuableWeightAvailable lbs pounds</span></li>
                                                 <li class="col-md-3"><img src="~/images/icon/dbl4.png" alt=""> <span>Date: @item.DateOfFlight</span></li>
