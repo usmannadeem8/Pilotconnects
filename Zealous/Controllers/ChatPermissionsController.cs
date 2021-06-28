@@ -15,8 +15,14 @@ namespace Zealous.Controllers
 
         public ChatPermissionsController(ZealousContext context)
         {
+            try { 
             _context = context;
         }
+            catch (Exception ex)
+            {
+                ReturnToLogin();
+    }
+}
 
         // GET: ChatPermissions
         public async Task<IActionResult> Index()
@@ -160,6 +166,10 @@ namespace Zealous.Controllers
         private bool ChatPermissionExists(long id)
         {
             return _context.ChatPermission.Any(e => e.Id == id);
+        }
+        public ActionResult ReturnToLogin()
+        {
+            return RedirectToAction("Login", "Home");
         }
     }
 }

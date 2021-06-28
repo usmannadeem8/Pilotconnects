@@ -17,16 +17,31 @@ namespace Zealous.Controllers
         int Delay = 0;
         public NotificationsController(ZealousContext context)
         {
+            try { 
             _context = context;
             HttpContextAccessor htp = new HttpContextAccessor();
             UserId = Convert.ToInt64(htp.HttpContext.Session.GetString("UserId"));
-            var configures = _context.Configure.FirstOrDefault();
+                if (htp.HttpContext.Session.GetString("UserId") == null)
+                {
+                    ReturnToLogin();
+                }
+                var configures = _context.Configure.FirstOrDefault();
             Delay = configures.Mc;
+            }
+            catch (Exception ex)
+            {
+                ReturnToLogin();
+            }
         }
 
         // GET: Notifications
         public async Task<IActionResult> Index()
         {
+            HttpContextAccessor htp = new HttpContextAccessor();
+            if (htp.HttpContext.Session.GetString("UserId") == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
 
             if (Delay > 1)
             {
@@ -347,6 +362,11 @@ namespace Zealous.Controllers
             _context.SaveChanges();
 
             return RedirectToAction("Index", "Notifications");
+        }
+
+        public ActionResult ReturnToLogin()
+        {
+            return RedirectToAction("Login", "Home");
         }
     }
 }

@@ -18,11 +18,21 @@ namespace Zealous.Controllers
         int Delay = 0;
         public BookingsController(ZealousContext context)
         {
+            try { 
             _context = context;
             HttpContextAccessor htp = new HttpContextAccessor();
             UserId = Convert.ToInt64(htp.HttpContext.Session.GetString("UserId"));
-            var configures = _context.Configure.FirstOrDefault();
+                if (htp.HttpContext.Session.GetString("UserId") == null)
+                {
+                    ReturnToLogin();
+                }
+                var configures = _context.Configure.FirstOrDefault();
             Delay = configures.Mc;
+            }
+            catch (Exception ex)
+            {
+                ReturnToLogin();
+            }
         }
 
         // GET: Bookings
@@ -44,6 +54,11 @@ namespace Zealous.Controllers
         }
         public async Task<IActionResult> BookingFlights()
         {
+            HttpContextAccessor htp = new HttpContextAccessor();
+            if (htp.HttpContext.Session.GetString("UserId") == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
             var zealousContext = _context.Flight.Include(f => f.DepartureAirportNavigation)
                 .Include(f => f.DestinationAirportNavigation)
                 .Include(f => f.Pilot).Where(x => x.PilotId == UserId);
@@ -191,6 +206,10 @@ namespace Zealous.Controllers
         private bool BookingExists(long id)
         {
             return _context.Booking.Any(e => e.Id == id);
+        }
+        public ActionResult ReturnToLogin()
+        {
+            return RedirectToAction("Login", "Home");
         }
     }
 }

@@ -19,11 +19,22 @@ namespace Zealous.Controllers
         int Delay = 0;
         public UsersController(ZealousContext context)
         {
-            _context = context;
-            HttpContextAccessor htp = new HttpContextAccessor();
-            UserId = Convert.ToInt64(htp.HttpContext.Session.GetString("UserId"));
-            var configures = _context.Configure.FirstOrDefault();
-            Delay = configures.Mc;
+            try
+            {
+                _context = context;
+                HttpContextAccessor htp = new HttpContextAccessor();
+                UserId = Convert.ToInt64(htp.HttpContext.Session.GetString("UserId"));
+                if (htp.HttpContext.Session.GetString("UserId") == null)
+                {
+                    ReturnToLogin();
+                }
+                var configures = _context.Configure.FirstOrDefault();
+                Delay = configures.Mc;
+            }
+            catch (Exception ex)
+            {
+                ReturnToLogin();
+            }
         }
 
         // GET: Users
@@ -322,6 +333,11 @@ namespace Zealous.Controllers
         }
         public ActionResult UserProfile(string userId)
         {
+            HttpContextAccessor htp = new HttpContextAccessor();
+            if (htp.HttpContext.Session.GetString("UserId") == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
             if (Delay > 1)
             {
                 Helper.Helper.Delay(Delay);
@@ -358,6 +374,11 @@ namespace Zealous.Controllers
                 Helper.Helper.Delay(Delay);
             }
             long uid = UserId;
+            HttpContextAccessor htp = new HttpContextAccessor();
+            if (htp.HttpContext.Session.GetString("UserId") == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
             HomeViewModel hvm = new HomeViewModel();
             hvm.Flights = _context.Flight.Include(f => f.DepartureAirportNavigation)
                  .Include(f => f.DestinationAirportNavigation)
@@ -368,6 +389,8 @@ namespace Zealous.Controllers
 
             hvm.User = _context.User.Include(u => u.Airport).Where(x => x.Id == uid).SingleOrDefault();
             ViewBag.Airports2 = _context.Airports.ToList().Select(x => x.State).Distinct();
+
+            
             return View(hvm);
         }
 
@@ -376,6 +399,11 @@ namespace Zealous.Controllers
             if (Delay > 1)
             {
                 Helper.Helper.Delay(Delay);
+            }
+            HttpContextAccessor htp = new HttpContextAccessor();
+            if (htp.HttpContext.Session.GetString("UserId") == null)
+            {
+                return RedirectToAction("Login", "Home");
             }
             User u = _context.User.Find(UserId);
             u.FirstName = FirstName;
@@ -396,6 +424,11 @@ namespace Zealous.Controllers
 
             return RedirectToAction("UserProfile", new { userId=Helper.Helper.Encrypt(UserId.ToString())} );
 
+        }
+
+        public ActionResult ReturnToLogin()
+        {
+            return RedirectToAction("Login", "Home");
         }
     }
 }

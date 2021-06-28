@@ -26,13 +26,25 @@ namespace Zealous.Controllers
 
         public HomeController(ZealousContext context, IConfiguration configuration)
         {
-            _context = context;
-            _configuration = configuration;
-            HttpContextAccessor htp = new HttpContextAccessor();
-            UserId = Convert.ToInt64(htp.HttpContext.Session.GetString("UserId"));
-            CheckMaintananceDate();
-            var configures = _context.Configure.FirstOrDefault();
-            Delay = configures.Mc;
+            try
+            {
+                _context = context;
+                _configuration = configuration;
+                HttpContextAccessor htp = new HttpContextAccessor();
+                UserId = Convert.ToInt64(htp.HttpContext.Session.GetString("UserId"));
+
+                if (htp.HttpContext.Session.GetString("UserId") == null)
+                {
+                    ReturnToLogin();
+                }
+                CheckMaintananceDate();
+                var configures = _context.Configure.FirstOrDefault();
+                Delay = configures.Mc;
+            }
+            catch (Exception ex)
+            {
+                ReturnToLogin();
+            }
         }
         public IActionResult Index()
         {
@@ -43,12 +55,12 @@ namespace Zealous.Controllers
                  .OrderByDescending(t => t.DateAdded).Take(10).ToList();
 
             ViewBag.Airports2 = _context.Airports.ToList().Select(x => x.State).Distinct();
-            
+
             return View(hvm);
         }
         public ActionResult GetAirports(string State)
         {
-            return Json(_context.Airports.Where(x => x.State == State).OrderBy(x=>x.Airport));
+            return Json(_context.Airports.Where(x => x.State == State).OrderBy(x => x.Airport));
         }
         public IActionResult About()
         {
@@ -92,18 +104,18 @@ namespace Zealous.Controllers
             var user = _context.User.Where(x => x.Email == Email && x.Password == Password && x.Active == true && x.EmailConfirmed == 0).SingleOrDefault();
             if (Email == "admin@zealous.com" && Password == "admin")
             {
-                HttpContext.Session.SetString("UserId","99999999");
+                HttpContext.Session.SetString("UserId", "99999999");
                 return RedirectToAction("AdminDashboard", "Home");
             }
             HttpContext.Session.SetString("UserId", user.Id.ToString());
             HttpContext.Session.SetString("Email", user.Email);
-            HttpContext.Session.SetString("FullName", user.FirstName+" "+user.LastName);
-            if(user.ImagePath != null)
+            HttpContext.Session.SetString("FullName", user.FirstName + " " + user.LastName);
+            if (user.ImagePath != null)
             {
                 HttpContext.Session.SetString("Dp", user.ImagePath);
                 HttpContext.Session.SetString("Dp2", user.ImagePath);
             }
-            
+
 
             if (Helper.Helper.CheckPayment(user.Id) == true)
             {
@@ -113,7 +125,7 @@ namespace Zealous.Controllers
             {
                 return RedirectToAction("Paypal", "Home");
             }
-          
+
         }
 
         [HttpPost]
@@ -125,8 +137,8 @@ namespace Zealous.Controllers
 
             using (MailMessage mm = new MailMessage("pilotconnects@gmail.com", Email))
             {
-               mm.Subject = "Forgot Password - Pilotconnects";
-                mm.Body = "Your Password is: "+user.Password;
+                mm.Subject = "Forgot Password - Pilotconnects";
+                mm.Body = "Your Password is: " + user.Password;
 
                 mm.IsBodyHtml = false;
                 using (SmtpClient smtp = new SmtpClient())
@@ -138,7 +150,7 @@ namespace Zealous.Controllers
                     smtp.Credentials = NetworkCred;
                     smtp.Port = 587;
                     smtp.Send(mm);
-                   
+
                 }
             }
 
@@ -150,7 +162,7 @@ namespace Zealous.Controllers
         public ActionResult Authenticate(string Email, string Password)
         {
             var user = _context.User.Where(x => x.Email == Email && x.Password == Password && x.Active == true && x.EmailConfirmed == 0).SingleOrDefault();
-            if(user != null)
+            if (user != null)
             {
                 return Json(1);
 
@@ -183,12 +195,12 @@ namespace Zealous.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-       
-        public  ActionResult SearchFlight(long DepartureAirport=0, long DestinationAirport = 0, long NoOfLeftSeats=0, long NoOfRightSeats = 0, long NoOfRearSeats = 0, long MinPrice = 0, long MaxPrice = 100000, DateTime? DateOfFlight= null )
+
+        public ActionResult SearchFlight(long DepartureAirport = 0, long DestinationAirport = 0, long NoOfLeftSeats = 0, long NoOfRightSeats = 0, long NoOfRearSeats = 0, long MinPrice = 0, long MaxPrice = 100000, DateTime? DateOfFlight = null)
         {
-            
+
             var zealousContext = _context.Flight.Include(f => f.DepartureAirportNavigation).Include(f => f.DestinationAirportNavigation).Include(f => f.Pilot)
-                .Where(x => (x.DepartureAirportNavigation.Id==DepartureAirport && x.DateOfFlight > DateTime.Now) || (x.DestinationAirportNavigation.Id == DestinationAirport && x.DateOfFlight > DateTime.Now) && x.NumberOfLeftSeats>=NoOfLeftSeats && x.NumberOfRearSeats>= NoOfRearSeats && x.NumberOfRightSeats>= NoOfRightSeats && (x.CostOfFlight>=MinPrice && x.CostOfFlight<=MaxPrice) || x.DateOfFlight.Date == DateOfFlight && x.DateOfFlight>DateTime.Now && (x.NumberOfLeftSeats + x.NumberOfRearSeats + x.NumberOfRightSeats) > 0)
+                .Where(x => (x.DepartureAirportNavigation.Id == DepartureAirport && x.DateOfFlight > DateTime.Now) || (x.DestinationAirportNavigation.Id == DestinationAirport && x.DateOfFlight > DateTime.Now) && x.NumberOfLeftSeats >= NoOfLeftSeats && x.NumberOfRearSeats >= NoOfRearSeats && x.NumberOfRightSeats >= NoOfRightSeats && (x.CostOfFlight >= MinPrice && x.CostOfFlight <= MaxPrice) || x.DateOfFlight.Date == DateOfFlight && x.DateOfFlight > DateTime.Now && (x.NumberOfLeftSeats + x.NumberOfRearSeats + x.NumberOfRightSeats) > 0)
                 .OrderByDescending(t => t.DateAdded);
             ViewBag.Airports2 = _context.Airports.ToList().Select(x => x.State).Distinct();
             return View(zealousContext.ToList());
@@ -197,6 +209,11 @@ namespace Zealous.Controllers
 
         public ActionResult AllFlight()
         {
+            HttpContextAccessor htp = new HttpContextAccessor();
+            if (htp.HttpContext.Session.GetString("UserId") == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
             if (Delay > 1)
             {
                 Helper.Helper.Delay(Delay);
@@ -214,6 +231,11 @@ namespace Zealous.Controllers
 
         public ActionResult MemberDashboard()
         {
+            HttpContextAccessor htp = new HttpContextAccessor();
+            if (htp.HttpContext.Session.GetString("UserId") == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
             if (Delay > 1)
             {
                 Helper.Helper.Delay(Delay);
@@ -227,17 +249,22 @@ namespace Zealous.Controllers
                  .Include(f => f.DestinationAirportNavigation)
                  .Include(f => f.Pilot).Where(x => x.DateOfFlight > DateTime.Now && (x.NumberOfLeftSeats + x.NumberOfRearSeats + x.NumberOfRightSeats) > 0)
                  .OrderByDescending(t => t.DateAdded).Take(5).ToList();
-            hvm.Notifications = _context.Notifications.Include(n => n.Flight).Include(n => n.Member).Include(n => n.Pilot).Where(m => m.MemberId == UserId && (m.Status == 0 || m.Status==2)&& m.Flight.DateOfFlight > DateTime.Now).OrderByDescending(t => t.DateAdded);
+            hvm.Notifications = _context.Notifications.Include(n => n.Flight).Include(n => n.Member).Include(n => n.Pilot).Where(m => m.MemberId == UserId && (m.Status == 0 || m.Status == 2) && m.Flight.DateOfFlight > DateTime.Now).OrderByDescending(t => t.DateAdded);
 
             hvm.Bookings = _context.Booking.Include(n => n.Flight).Include(n => n.Member).Include(n => n.Pilot).Where(m => m.MemberId == UserId && m.Status == 1 && m.Flight.DateOfFlight > DateTime.Now).OrderByDescending(t => t.DateAdded);
 
             hvm.User = _context.User.Find(UserId);
-           
+
             return View(hvm);
         }
 
         public ActionResult PilotDashboard()
         {
+            HttpContextAccessor htp = new HttpContextAccessor();
+            if (htp.HttpContext.Session.GetString("UserId") == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
             if (Delay > 1)
             {
                 Helper.Helper.Delay(Delay);
@@ -246,25 +273,25 @@ namespace Zealous.Controllers
             {
                 return RedirectToAction("Paypal", "Home");
             }
-         
+
             HomeViewModel hvm = new HomeViewModel();
             hvm.FlightCount = _context.Flight.Include(f => f.DepartureAirportNavigation)
                .Include(f => f.DestinationAirportNavigation)
                .Include(f => f.Pilot).Where(x => x.PilotId == UserId && x.DateOfFlight > DateTime.Now).Count();
 
-           
 
-            hvm.NewMessageCount = _context.ChatPermission.Include(c => c.User1Navigation).Include(c => c.User2Navigation).Where(m => m.User1 == UserId && m.IsSeen==0).Count();
-           
+
+            hvm.NewMessageCount = _context.ChatPermission.Include(c => c.User1Navigation).Include(c => c.User2Navigation).Where(m => m.User1 == UserId && m.IsSeen == 0).Count();
+
             hvm.NotificationCount = _context.Notifications.Include(n => n.Flight).Include(n => n.Member).Include(n => n.Pilot).Where(m => m.PilotId == UserId && m.Status == 0 && m.Flight.DateOfFlight > DateTime.Now).Count();
-           
-            hvm.BookingCount = _context.Booking.Include(b => b.Flight).Include(b => b.Member).Include(b => b.Pilot).Where(m => m.PilotId==UserId && m.Flight.DateOfFlight > DateTime.Now).Count();
+
+            hvm.BookingCount = _context.Booking.Include(b => b.Flight).Include(b => b.Member).Include(b => b.Pilot).Where(m => m.PilotId == UserId && m.Flight.DateOfFlight > DateTime.Now).Count();
 
             hvm.Flights = _context.Flight.Include(f => f.DepartureAirportNavigation)
              .Include(f => f.DestinationAirportNavigation)
              .Include(f => f.Pilot).Where(x => x.PilotId == UserId && x.DateOfFlight > DateTime.Now).Take(10);
 
-            hvm.Bookings= _context.Booking.Include(b => b.Flight).Include(b => b.Member).Include(b => b.Pilot).Where(m => m.PilotId==UserId);
+            hvm.Bookings = _context.Booking.Include(b => b.Flight).Include(b => b.Member).Include(b => b.Pilot).Where(m => m.PilotId == UserId);
             hvm.User = _context.User.Find(UserId);
 
             return View(hvm);
@@ -289,6 +316,11 @@ namespace Zealous.Controllers
 
         public ActionResult AdminDashboard()
         {
+            HttpContextAccessor htp = new HttpContextAccessor();
+            if (htp.HttpContext.Session.GetString("UserId") == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
             if (Delay > 1)
             {
                 Helper.Helper.Delay(Delay);
@@ -298,16 +330,16 @@ namespace Zealous.Controllers
                 return RedirectToAction("Login", "Home");
             }
             AdminViewModel avm = new AdminViewModel();
-            avm.TotalUserCount=_context.User.Include(u => u.Airport).Count();
-            avm.ActiveUserCount = _context.User.Include(u => u.Airport).Where(x=>x.Active==true).Count();
+            avm.TotalUserCount = _context.User.Include(u => u.Airport).Count();
+            avm.ActiveUserCount = _context.User.Include(u => u.Airport).Where(x => x.Active == true).Count();
             avm.InActiveUserCount = _context.User.Include(u => u.Airport).Where(x => x.Active == false).Count();
             avm.FAAUserCount = _context.User.Include(u => u.Airport).Where(x => x.Faa == 1).Count();
 
-            avm.TotalFlightsCount= _context.Flight.Include(f => f.DepartureAirportNavigation)
+            avm.TotalFlightsCount = _context.Flight.Include(f => f.DepartureAirportNavigation)
                 .Include(f => f.DestinationAirportNavigation)
                 .Include(f => f.Pilot).Count();
 
-            avm.ActiveFlightsCount= _context.Flight.Include(f => f.DepartureAirportNavigation)
+            avm.ActiveFlightsCount = _context.Flight.Include(f => f.DepartureAirportNavigation)
                 .Include(f => f.DestinationAirportNavigation)
                 .Include(f => f.Pilot).Where(x => x.DateOfFlight > DateTime.Now).Count();
 
@@ -318,7 +350,7 @@ namespace Zealous.Controllers
             var YearEarning = _context.Payment.Where(x => x.FromDate.Year == DateTime.Now.Year);
             var MonthlyEarning = _context.Payment.Where(x => x.FromDate.Month == DateTime.Now.Month && x.FromDate.Year == DateTime.Now.Year);
             var TodayEarning = _context.Payment.Where(x => x.FromDate.Day == DateTime.Now.Day && x.FromDate.Month == DateTime.Now.Month && x.FromDate.Year == DateTime.Now.Year);
-            foreach(var i in TotalEarning)
+            foreach (var i in TotalEarning)
             {
                 avm.TotalRevenue = avm.TotalRevenue + i.Amount;
             }
@@ -336,13 +368,13 @@ namespace Zealous.Controllers
             }
 
             avm.PaidUsers = from item in _context.User
-                              join pay in _context.Payment on item.Id equals pay.UserId
-                              where pay.FromDate < DateTime.Now && pay.ToDate > DateTime.Now
-                              select item;
+                            join pay in _context.Payment on item.Id equals pay.UserId
+                            where pay.FromDate < DateTime.Now && pay.ToDate > DateTime.Now
+                            select item;
             avm.UnPaidUsers = _context.User.ToList().Except(avm.PaidUsers);
             var con = _context.Configure.FirstOrDefault();
             avm.MC = con.Mc;
-            avm.MD = 30-(DateTime.Now.Date - con.Md.Date).Days;
+            avm.MD = 30 - (DateTime.Now.Date - con.Md.Date).Days;
             return View(avm);
         }
 
@@ -351,6 +383,11 @@ namespace Zealous.Controllers
             if (Delay > 1)
             {
                 Helper.Helper.Delay(Delay);
+            }
+            HttpContextAccessor htp = new HttpContextAccessor();
+            if (htp.HttpContext.Session.GetString("UserId") == null)
+            {
+                return RedirectToAction("Login", "Home");
             }
             HomeViewModel hvm = new HomeViewModel();
             hvm.Flights = _context.Flight.Include(f => f.DepartureAirportNavigation)
@@ -362,12 +399,18 @@ namespace Zealous.Controllers
             hvm.Bookings = _context.Booking.Include(n => n.Flight).Include(n => n.Member).Include(n => n.Pilot).Where(m => m.MemberId == UserId && m.Status == 1 && m.Flight.DateOfFlight > DateTime.Now).OrderByDescending(t => t.DateAdded);
 
             hvm.User = _context.User.Find(UserId);
-            
+
             return View(hvm);
         }
 
         public ActionResult UpdatePayment(string UserId)
         {
+            HttpContextAccessor htp = new HttpContextAccessor();
+            if (htp.HttpContext.Session.GetString("UserId") == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
             long userId = Helper.Helper.Decrypt(UserId);
             Payment p = new Payment();
             p.UserId = userId;
@@ -387,17 +430,22 @@ namespace Zealous.Controllers
                 Helper.Helper.Delay(Delay);
             }
             HomeViewModel hvm = new HomeViewModel();
-            
+
             hvm.UserV = from item in _context.User
-                                 join pay in _context.Payment on item.Id equals pay.UserId
-                                 join air in _context.Airports on item.AirportId equals air.Id
-                                 where pay.FromDate < DateTime.Now && pay.ToDate > DateTime.Now && item.Active==true
-                                 select new UserViewModel { ImagePath=item.ImagePath, Id=item.Id,FirstName=item.FirstName,LastName=item.LastName,AirportName=air.Airport, CertificateType=item.CertificateType,Faa=item.Faa };
+                        join pay in _context.Payment on item.Id equals pay.UserId
+                        join air in _context.Airports on item.AirportId equals air.Id
+                        where pay.FromDate < DateTime.Now && pay.ToDate > DateTime.Now && item.Active == true
+                        select new UserViewModel { ImagePath = item.ImagePath, Id = item.Id, FirstName = item.FirstName, LastName = item.LastName, AirportName = air.Airport, CertificateType = item.CertificateType, Faa = item.Faa };
             return View(hvm);
         }
 
         public ActionResult GraphicalSearch()
         {
+            HttpContextAccessor htp = new HttpContextAccessor();
+            if (htp.HttpContext.Session.GetString("UserId") == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
             if (Delay > 1)
             {
                 Helper.Helper.Delay(Delay);
@@ -412,7 +460,7 @@ namespace Zealous.Controllers
 
         public ActionResult GetFlights(long DepartureAirport = 0, long DestinationAirport = 0, DateTime? DateOfFlight = null)
         {
-            if(DestinationAirport==0 && DepartureAirport==0 && DateOfFlight == null)
+            if (DestinationAirport == 0 && DepartureAirport == 0 && DateOfFlight == null)
             {
                 var flights = (from item in _context.Flight
                                join depair in _context.Airports on item.DepartureAirport equals depair.Id
@@ -430,14 +478,14 @@ namespace Zealous.Controllers
                                select new { FlightEid = Helper.Helper.Encrypt(item.Id.ToString()), FlightName = item.FlightTo, DepLang = Convert.ToDecimal(depair.Lang), DepLat = Convert.ToDecimal(depair.Lat), DesLang = Convert.ToDecimal(desair.Lang), DesLat = Convert.ToDecimal(desair.Lat) }).ToList();
                 return Json(flights);
             }
-           
 
-            
+
+
         }
 
-        public async Task<IActionResult> UploadFile( IList<IFormFile> files, IFormCollection collection)
+        public async Task<IActionResult> UploadFile(IList<IFormFile> files, IFormCollection collection)
         {
-           
+
 
             foreach (var file in files)
             {
@@ -450,7 +498,7 @@ namespace Zealous.Controllers
 
 
                     var path = Path.Combine(
-                                    fileServer, "ProfilePictures/"+UserId);
+                                    fileServer, "ProfilePictures/" + UserId);
 
                     if (Directory.Exists(path))
                     {
@@ -459,7 +507,7 @@ namespace Zealous.Controllers
                         //{
                         //    File.Delete(f);
                         //}
-                        System.IO.Directory.Delete(path,true);
+                        System.IO.Directory.Delete(path, true);
                     }
 
                     if (!Directory.Exists(path))
@@ -476,7 +524,7 @@ namespace Zealous.Controllers
                     MemoryStream ms = new MemoryStream();
                     uploadedFile.OpenReadStream().CopyTo(ms);
 
-                    var javascriptPath = "ProfilePictures/" + UserId+"/" + fileName.Replace(" ", "_");
+                    var javascriptPath = "ProfilePictures/" + UserId + "/" + fileName.Replace(" ", "_");
 
                     var user = _context.User.Find(UserId);
                     user.ImagePath = javascriptPath;
@@ -500,7 +548,7 @@ namespace Zealous.Controllers
         }
         public Boolean FileType(string type)
         {
-            if ( type == ".png" || type == ".jpeg"|| type == ".jpg" || type == ".PNG" || type == ".JPEG" || type == ".JPG")
+            if (type == ".png" || type == ".jpeg" || type == ".jpg" || type == ".PNG" || type == ".JPEG" || type == ".JPG")
             {
                 return true;
             }
@@ -545,11 +593,17 @@ namespace Zealous.Controllers
                 _context.Configure.Update(con);
                 _context.SaveChanges();
             }
-         
+
             return "";
         }
 
-   
+        public ActionResult ReturnToLogin()
+        {
+            return RedirectToAction("Login", "Home");
+        }
 
-    }
+
+
+
+    }   
 }

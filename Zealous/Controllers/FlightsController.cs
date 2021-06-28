@@ -19,11 +19,21 @@ namespace Zealous.Controllers
         int Delay = 0;
         public FlightsController(ZealousContext context)
         {
+            try { 
             _context = context;
             HttpContextAccessor htp = new HttpContextAccessor();
             UserId = Convert.ToInt64(htp.HttpContext.Session.GetString("UserId"));
-            var configures = _context.Configure.FirstOrDefault();
+                if (htp.HttpContext.Session.GetString("UserId") == null)
+                {
+                    ReturnToLogin();
+                }
+                var configures = _context.Configure.FirstOrDefault();
             Delay = configures.Mc;
+            }
+            catch (Exception ex)
+            {
+                ReturnToLogin();
+            }
 
         }
 
@@ -33,6 +43,11 @@ namespace Zealous.Controllers
             if (Delay > 1)
             {
                 Helper.Helper.Delay(Delay);
+            }
+            HttpContextAccessor htp = new HttpContextAccessor();
+            if (htp.HttpContext.Session.GetString("UserId") == null)
+            {
+                return RedirectToAction("Login", "Home");
             }
             var zealousContext = _context.Flight.Include(f => f.DepartureAirportNavigation)
                 .Include(f => f.DestinationAirportNavigation)
@@ -44,6 +59,11 @@ namespace Zealous.Controllers
             if (Delay > 1)
             {
                 Helper.Helper.Delay(Delay);
+            }
+            HttpContextAccessor htp = new HttpContextAccessor();
+            if (htp.HttpContext.Session.GetString("UserId") == null)
+            {
+                return RedirectToAction("Login", "Home");
             }
             var zealousContext = _context.Flight.Include(f => f.DepartureAirportNavigation)
                 .Include(f => f.DestinationAirportNavigation)
@@ -75,6 +95,11 @@ namespace Zealous.Controllers
         // GET: Flights/Create
         public IActionResult Create()
         {
+            HttpContextAccessor htp = new HttpContextAccessor();
+            if (htp.HttpContext.Session.GetString("UserId") == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
             if (Delay > 1)
             {
                 Helper.Helper.Delay(Delay);
@@ -95,7 +120,11 @@ namespace Zealous.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,PilotId,FlightTo,DepartureAirport,DestinationAirport,NumberOfLeftSeats,NumberOfRightSeats,NumberOfRearSeats,CostOfFlight,UsuableWeightAvailable,DateOfFlight,DateAdded,DateUpdated,Active,Plane,FlightType")] Flight flight)
         {
-          
+            HttpContextAccessor htp = new HttpContextAccessor();
+            if (htp.HttpContext.Session.GetString("UserId") == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
             if (ModelState.IsValid)
             {
                 flight.PilotId = UserId;
@@ -137,6 +166,11 @@ namespace Zealous.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, [Bind("Id,PilotId,FlightTo,DepartureAirport,DestinationAirport,NumberOfLeftSeats,NumberOfRightSeats,NumberOfRearSeats,CostOfFlight,UsuableWeightAvailable,DateOfFlight,DateUpdated,Active,Plane,FlightType")] Flight flight)
         {
+            HttpContextAccessor htp = new HttpContextAccessor();
+            if (htp.HttpContext.Session.GetString("UserId") == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
             if (id != flight.Id)
             {
                 return NotFound();
@@ -267,6 +301,11 @@ namespace Zealous.Controllers
 
         public ActionResult BookNow(long Id, long LeftSeats, long RightSeats, long RearSeats, long CostOfSeat)
         {
+            HttpContextAccessor htp = new HttpContextAccessor();
+            if (htp.HttpContext.Session.GetString("UserId") == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
             var flight = _context.Flight
                 .Include(f => f.DepartureAirportNavigation)
                 .Include(f => f.DestinationAirportNavigation)
@@ -305,7 +344,11 @@ namespace Zealous.Controllers
 
             return RedirectToAction("MemberDashboard", "Home");
         }
+        public ActionResult ReturnToLogin()
+        {
+            return RedirectToAction("Login", "Home");
+        }
 
-     
+
     }
 }

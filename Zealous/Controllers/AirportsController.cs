@@ -16,9 +16,20 @@ namespace Zealous.Controllers
 
         public AirportsController(ZealousContext context)
         {
-            _context = context;
+            try
+            {
+                _context = context;
             HttpContextAccessor htp = new HttpContextAccessor();
             UserId = Convert.ToInt64(htp.HttpContext.Session.GetString("UserId"));
+                if (htp.HttpContext.Session.GetString("UserId") == null)
+                {
+                    ReturnToLogin();
+                }
+            }
+            catch (Exception ex)
+            {
+                ReturnToLogin();
+            }
         }
 
         // GET: Airports
@@ -158,6 +169,10 @@ namespace Zealous.Controllers
         private bool AirportsExists(long id)
         {
             return _context.Airports.Any(e => e.Id == id);
+        }
+        public ActionResult ReturnToLogin()
+        {
+            return RedirectToAction("Login", "Home");
         }
     }
 }
