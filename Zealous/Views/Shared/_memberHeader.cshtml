@@ -249,31 +249,36 @@
                             </li>
 
                         </ul>
-                        @if (UserId != null)
-                        {
-                            <ul>
-                                <li>
-                                    <a href=" @Url.Action("MemberDashboard","Home")"> @FullName</a>
-                                </li>
 
-                                <li>
-                                    <a href=" @Url.Action("Logout","Home")">Logout</a>
-                                </li>
-                            </ul>
-                        }
-                        else
-                        {
-                            <ul>
-                                <li>
-                                    <a href=" @Url.Action("Login","Home")">Sign In</a>
-                                </li>
-                                <li>
-                                    <a href=" @Url.Action("Create","Users")">Sign Up</a>
-                                </li>
-                            </ul>
-                        }
+                        <div class="ed-com-t1-right pull-left" style="padding-left:25px" >
+                            @if (UserId != null)
+                            {
+                                <ul >
+                                    <li>
+                                        <a href=" @Url.Action("MemberDashboard","Home")"> @FullName</a>
+                                    </li>
+
+                                    <li>
+                                        <a href=" @Url.Action("Logout","Home")">Logout</a>
+                                    </li>
+                                </ul>
+                            }
+                            else
+                            {
+                                <ul>
+                                    <li>
+                                        <a href=" @Url.Action("Login","Home")">Sign In</a>
+                                    </li>
+                                    <li>
+                                        <a href=" @Url.Action("Create","Users")">Sign Up</a>
+                                    </li>
+                                </ul>
+                            }
+
+                        </div>
 
                     </div>
+                   
                 </div>
             </div>
         </div>

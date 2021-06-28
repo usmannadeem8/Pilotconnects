@@ -6577,7 +6577,7 @@
      font-size: 14px;
      color: #42494e;
 }
- .ed-mm-inn ul li a:before {
+ /*.ed-mm-inn ul li a:before {
      content: "\f105";
      font-family: FontAwesome;
      font-style: normal;
@@ -6587,7 +6587,7 @@
      font-size: 14px;
      color: black;
      margin-left:-25px;
-}
+}*/
  .affix {
      position: fixed;
      top: 0px;
